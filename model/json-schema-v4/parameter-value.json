@@ -1,0 +1,29 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "definitions": {},
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "The name of the parameter for which the value is changed."
+    },
+    "newValue": {
+      "type": "string",
+      "description": "The new/requested value of the parameter."
+    },
+    "type": {
+      "$ref": "parameter-type.json"
+    },
+    "oldValue": {
+      "type": "string",
+      "description": "The current/previous value of the parameter."
+    }
+  },
+  "required": [
+    "name",
+    "newValue",
+    "type"
+  ],
+  "additionalProperties": false,
+  "id": "ParameterValue"
+}

@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "definitions": {},
+  "type": "object",
+  "properties": {
+    "timestamp": {
+      "type": "string",
+      "description": "The date+timestamp which identifies the point in time, where the information was generated, including milliseconds.",
+      "format": "date-time"
+    },
+    "trackEvents": {
+      "type": "array",
+      "items": {
+        "$ref": "track-event.json"
+      }
+    }
+  },
+  "required": [
+    "timestamp",
+    "trackEvents"
+  ],
+  "additionalProperties": false,
+  "description": "This element represents an event-driven data generation of a piece of MPE.",
+  "id": "TrackEvents"
+}

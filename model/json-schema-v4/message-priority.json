@@ -1,0 +1,12 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "definitions": {},
+  "type": "string",
+  "enum": [
+    "INFO",
+    "WARNING",
+    "ALARM",
+    "ERROR"
+  ],
+  "id": "MessagePriority"
+}

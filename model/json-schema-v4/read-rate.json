@@ -1,0 +1,29 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "definitions": {},
+  "type": "object",
+  "properties": {
+    "processPoint": {
+      "type": "string",
+      "description": "The location where the information was generated. (Siehe Anlagen Bezeichnungskonzept)"
+    },
+    "total": {
+      "type": "integer",
+      "description": "Total number of parcel passed the reading device.",
+      "minimum": 0
+    },
+    "read": {
+      "type": "integer",
+      "description": "Number of parcel successfully read at processpoint and the cen-mc-rc.submit-mailpiece event has been sent to the coding system.",
+      "minimum": 0
+    }
+  },
+  "required": [
+    "processPoint",
+    "total",
+    "read"
+  ],
+  "additionalProperties": false,
+  "description": "The read rate event of an element. The counter will be used for visualization and statistic purposes.",
+  "id": "ReadRate"
+}

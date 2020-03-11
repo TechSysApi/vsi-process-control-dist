@@ -47,7 +47,6 @@
           },
           "dischargeReason": {
             "description": "Reason of discharge. Only relevant for discharge events.",
-            "required": true,
             "$schema": "http://json-schema.org/draft-03/schema#",
             "definitions": {},
             "type": "string",

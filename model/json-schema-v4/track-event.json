@@ -27,8 +27,7 @@
   "required": [
     "eventType",
     "processPoint",
-    "itemId",
-    "dischargeReason"
+    "itemId"
   ],
   "additionalProperties": false,
   "description": "The track event of an parcel. The event will be used for statistic purpose.",

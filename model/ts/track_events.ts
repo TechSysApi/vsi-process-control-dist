@@ -38,7 +38,7 @@ export interface TrackEvent {
     /**
      * Reason of discharge. Only relevant for discharge events.
      */
-    dischargeReason: SortReason;
+    dischargeReason?: SortReason;
 }
 
 /**

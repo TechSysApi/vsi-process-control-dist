@@ -27,7 +27,6 @@
             "required": true
           },
           "type": {
-            "required": true,
             "$schema": "http://json-schema.org/draft-03/schema#",
             "definitions": {},
             "type": "string",

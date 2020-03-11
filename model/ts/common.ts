@@ -9,7 +9,7 @@ export interface ParameterValue {
      */
     newValue: string;
 
-    type: ParameterType;
+    type?: ParameterType;
 
     /**
      * The current/previous value of the parameter.

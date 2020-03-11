@@ -21,8 +21,7 @@
   },
   "required": [
     "name",
-    "newValue",
-    "type"
+    "newValue"
   ],
   "additionalProperties": false,
   "id": "ParameterValue"

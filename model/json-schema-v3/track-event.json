@@ -24,8 +24,7 @@
     },
     "dischargeReason": {
       "$ref": "sort-reason.json",
-      "description": "Reason of discharge. Only relevant for discharge events.",
-      "required": true
+      "description": "Reason of discharge. Only relevant for discharge events."
     }
   },
   "additionalProperties": false,

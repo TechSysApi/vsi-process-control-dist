@@ -14,8 +14,7 @@
       "required": true
     },
     "type": {
-      "$ref": "parameter-type.json",
-      "required": true
+      "$ref": "parameter-type.json"
     },
     "oldValue": {
       "type": "string",

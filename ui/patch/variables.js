@@ -1,6 +1,6 @@
 var variables={
   "name": "@ch-post/vsi-process-control-stream-api",
-  "version": "1.1.6",
+  "version": "1.1.7",
   "description": "API definition - Interaction between Machine Control and Reading Coding System - CEN/TS 16238",
   "scripts": {
     "start": "apikana start src dist",

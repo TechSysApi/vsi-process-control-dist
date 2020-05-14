@@ -1,6 +1,6 @@
 var variables={
   "name": "@ch-post/vsi-process-control-stream-api",
-  "version": "1.1.7",
+  "version": "1.1.8",
   "description": "API definition - Interaction between Machine Control and Reading Coding System - CEN/TS 16238",
   "scripts": {
     "start": "apikana start src dist",
@@ -19,7 +19,7 @@ var variables={
     "type": "stream-api",
     "domain": "post.ch",
     "author": "herzamk",
-    "namespace": "vsi.process.control",
+    "namespace": "app.techsys.vsi.process.control",
     "shortName": "vsi-process-control",
     "projectName": "vsi-process-control-stream-api",
     "npmPackage": "@ch-post/vsi-process-control-stream-api",

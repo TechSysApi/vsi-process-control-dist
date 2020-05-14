@@ -5,7 +5,7 @@ info:
   contact:
     name: 'Kay Herzam (Swiss Post)'
     email: kay.herzam@post.ch
-  version: 1.1.7
+  version: 1.1.8
 host: 'server:1883'
 basePath: mqtt
 paths:

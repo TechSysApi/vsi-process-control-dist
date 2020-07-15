@@ -1,0 +1,15 @@
+{
+    "trackEvents": [{
+        "itemId": "4785074604081991",
+        "mailpieceId": "993413796700000244",
+        "eventType": "INDUCTION",
+        "processPoint": "=TRY01+AIM0111+TFU01-CBU06"
+    }, {
+        "itemId": "4785074604081990",
+        "mailpieceId": "993413796700000321",
+        "eventType": "DISCHARGE",
+        "processPoint": "=TRY01.DSM404",
+        "dischargeReason": "OK"
+    }],
+    "timestamp": "2019-09-02T14:14:57.3225049+02:00"
+}

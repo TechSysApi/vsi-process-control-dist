@@ -1,0 +1,95 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "definitions": {},
+  "type": "object",
+  "properties": {
+    "timestamp": {
+      "type": "string",
+      "description": "The date+timestamp which identifies the point in time, where the information was generated, including milliseconds.",
+      "format": "date-time"
+    },
+    "trackEvents": {
+      "type": "array",
+      "items": {
+        "$schema": "http://json-schema.org/draft-04/schema#",
+        "definitions": {},
+        "type": "object",
+        "properties": {
+          "eventType": {
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "definitions": {},
+            "type": "string",
+            "enum": [
+              "UNKNOWN",
+              "INDUCTION",
+              "TRACK",
+              "DISCHARGE"
+            ],
+            "description": "Defines the track event type.\nList of values:\n- UNKNOWN: Default enum value to map not supported values.\n- INDUCTION: Event occured during induction\n- TRACK: Event occured on the sorter\n- DISCHARGE: Event occured during discharge",
+            "id": "TrackEventType"
+          },
+          "processPoint": {
+            "type": "string",
+            "description": "The location where the information was generated. (Siehe Anlagen Bezeichnungskonzept)"
+          },
+          "itemId": {
+            "type": "string",
+            "description": "The id of the mailpiece assigned by the sorting machine during sorting."
+          },
+          "mailpieceId": {
+            "type": "string",
+            "description": "Represents the national identifier for the mailpiece item.",
+            "pattern": "(98|99)[0-9]{16}"
+          },
+          "dischargeReason": {
+            "description": "Reason of discharge. Only relevant for discharge events.",
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "definitions": {},
+            "type": "string",
+            "enum": [
+              "UNKNOWN",
+              "OK",
+              "MAX_RECIRCULATION",
+              "ITEM_NO_READ",
+              "ITEM_MULTIPLE_READ",
+              "SCANNER_TIMEOUT",
+              "ITEM_STRAY",
+              "ITEM_INDUCTION_ERROR",
+              "ITEM_DISCHARGE_ERROR",
+              "ITEM_ERROR",
+              "ITEM_TRACKING_ERROR",
+              "ITEM_OCCUPIED_TWICE_ERROR",
+              "ITEM_DISAPPEARED",
+              "OUTLET_NOT_AVAILABLE",
+              "OUTLET_UNKNOWN",
+              "UNDEFINED_ERROR",
+              "NO_CAPACITY",
+              "DIMENSION_ERROR",
+              "WEIGHT_ERROR",
+              "SORTPLAN_ERROR",
+              "DIRECT_SORTING_MODE",
+              "ITEM_NO_SORTCODE",
+              "OUTLET_MISSED"
+            ],
+            "id": "SortReason"
+          }
+        },
+        "required": [
+          "eventType",
+          "processPoint",
+          "itemId"
+        ],
+        "additionalProperties": false,
+        "description": "The track event of an parcel. The event will be used for statistic purpose.",
+        "id": "TrackEvent"
+      }
+    }
+  },
+  "required": [
+    "timestamp",
+    "trackEvents"
+  ],
+  "additionalProperties": false,
+  "description": "This element represents an event-driven data generation of a piece of MPE.",
+  "id": "TrackEvents"
+}

@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/draft-03/schema#",
+  "definitions": {},
+  "type": "object",
+  "properties": {
+    "timestamp": {
+      "type": "string",
+      "description": "The date+timestamp which identifies the point in time, where the information was generated, including milliseconds.",
+      "format": "date-time",
+      "required": true
+    },
+    "readRates": {
+      "type": "array",
+      "items": {
+        "$ref": "read-rate.json"
+      }
+    }
+  },
+  "additionalProperties": false,
+  "description": "Contains an array of read rates.",
+  "id": "ReadRates"
+}

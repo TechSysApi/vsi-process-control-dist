@@ -1,0 +1,13 @@
+{
+  "$schema": "http://json-schema.org/draft-03/schema#",
+  "definitions": {},
+  "type": "string",
+  "enum": [
+    "UNKNOWN",
+    "INDUCTION",
+    "TRACK",
+    "DISCHARGE"
+  ],
+  "description": "Defines the track event type.\nList of values:\n- UNKNOWN: Default enum value to map not supported values.\n- INDUCTION: Event occured during induction\n- TRACK: Event occured on the sorter\n- DISCHARGE: Event occured during discharge",
+  "id": "TrackEventType"
+}

@@ -1,8 +1,0 @@
-{
-	"timestamp": "2019-09-02T14:18:14.3297612+02:00",
-	"machineState": 2,
-	"moduleStates": [{
-		"name": "=TRY01.DSM404+RCU01",
-		"value": 1152
-	}]
-}

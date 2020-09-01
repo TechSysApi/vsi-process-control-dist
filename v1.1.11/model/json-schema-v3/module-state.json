@@ -1,0 +1,20 @@
+{
+  "$schema": "http://json-schema.org/draft-03/schema#",
+  "definitions": {},
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "value": {
+      "type": "integer",
+      "description": "Module state\nTechsys: \n  - publish statuschange: RDY=0,DSA=1,ERR=2\n  - set status: ENA=10,DISA=11",
+      "minimum": 0,
+      "required": true
+    }
+  },
+  "additionalProperties": false,
+  "id": "ModuleState",
+  "dotnetNamespace": "Ch.Post.PL.Api.VsiProcessControl.V1"
+}

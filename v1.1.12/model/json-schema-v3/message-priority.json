@@ -1,0 +1,13 @@
+{
+  "$schema": "http://json-schema.org/draft-03/schema#",
+  "definitions": {},
+  "type": "string",
+  "enum": [
+    "INFO",
+    "WARNING",
+    "ALARM",
+    "ERROR"
+  ],
+  "id": "MessagePriority",
+  "dotnetNamespace": "Ch.Post.PL.Api.VsiProcessControl.V1"
+}

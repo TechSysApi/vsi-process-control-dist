@@ -1,0 +1,37 @@
+{
+  "namespace": "RequestStatus",
+  "name": "main",
+  "type": "record",
+  "doc": "Response of the device to a Request.",
+  "fields": [
+    {
+      "name": "timestamp",
+      "doc": "The date+timestamp which identifies the point in time, where the information was generated, including milliseconds.",
+      "type": "string"
+    },
+    {
+      "name": "state",
+      "doc": true,
+      "type": [
+        "null",
+        "enum",
+        "string"
+      ],
+      "symbols": [
+        "OK",
+        "ERROR",
+        "PROCESSING"
+      ],
+      "default": null
+    },
+    {
+      "name": "message",
+      "doc": "May contain additional information on the status, e.g. error reason\nin case of ERROR. Messages are not meant to be processed\nautomatically but should just be used for problem\ntracking.",
+      "default": null,
+      "type": [
+        "null",
+        "string"
+      ]
+    }
+  ]
+}

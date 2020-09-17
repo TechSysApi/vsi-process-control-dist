@@ -1,0 +1,765 @@
+swagger: 2
+info:
+  title: 'VSI Process Control'
+  description: 'Describes the protocol of the device to the control software (Leitstand)'
+  contact:
+    name: 'Kay Herzam (Swiss Post)'
+    email: kay.herzam@post.ch
+  version: 1.1.13
+host: 'server:1883'
+basePath: mqtt
+parameters:
+  sourceDestinationConversationParameters:
+    -
+      name: srcSystem
+      in: path
+      description: '3-letter uppercase name identifying the system issuing the message'
+      type: string
+      default: MDS
+    -
+      name: srcInstance
+      in: path
+      description: 'two-digit padded number identifying the system instance issuing the message'
+      type: string
+      default: '01'
+    -
+      name: dstSystem
+      in: path
+      description: '3-letter uppercase name identifying the system receiving the message'
+      type: string
+      default: ASL
+    -
+      name: dstInstance
+      in: path
+      description: 'two-digit padded number identifying the system instance receiving the message'
+      type: string
+      default: '01'
+    -
+      name: conversationId
+      in: path
+      description: 'ID that will be included in the get-response topic in order to correlate the messages'
+      type: string
+      default: '12345'
+  sourceSystemInstanceParameters:
+    -
+      name: srcSystem
+      in: path
+      description: '3-letter uppercase name identifying the system issuing the message'
+      type: string
+      default: ASL
+    -
+      name: srcInstance
+      in: path
+      description: 'two-digit padded number identifying the system instance issuing the message'
+      type: string
+      default: '01'
+paths:
+  'vsi-process-control/v1/client/status/{srcSystem}/{srcInstance}':
+    post:
+      summary: '🔂[RETAINED] client connection state'
+      description: 'Used to notify subscribers about client connection state changes'
+      tags:
+        - client
+      parameters:
+        -
+          $ref: '#/definitions/undefined'
+      responses:
+        default:
+          schema: {$ref: '#/definitions/ClientStatus'}
+  'vsi-process-control/v1/device/state/{srcSystem}/{srcInstance}':
+    post:
+      summary: '🔂[RETAINED] ATG-6 update machine state'
+      description: 'Used to send state responses / updates from the device to the control. (Re-)Connected to ATG - The publisher needs to send (synchronize) the full state to the ATG.'
+      tags:
+        - device
+      parameters:
+        -
+          $ref: '#/definitions/undefined'
+      responses:
+        default:
+          schema: {$ref: '#/definitions/OverallState'}
+  'vsi-process-control/v1/control/state:set/{srcSystem}/{srcInstance}/{dstSystem}/{dstInstance}/{conversationId}':
+    post:
+      summary: 'ATG-6 Change machine state'
+      description: 'Issue a set request to the device to change its state (or a sub module state).'
+      tags:
+        - control
+      parameters:
+        -
+          $ref: '#/definitions/undefined'
+      responses:
+        default:
+          schema: {$ref: '#/definitions/OverallState'}
+  'vsi-process-control/v1/device/state:set:status/{srcSystem}/{srcInstance}/{dstSystem}/{dstInstance}/{conversationId}':
+    post:
+      summary: 'ATG-6 Change machine state'
+      description: 'Issues the state update status (successful or unsuccesful) of a state:set operation'
+      tags:
+        - device
+      parameters:
+        -
+          $ref: '#/definitions/undefined'
+      responses:
+        default:
+          schema: {$ref: '#/definitions/RequestStatus'}
+  'vsi-process-control/v1/device/parameter-metadata/{srcSystem}/{srcInstance}':
+    post:
+      summary: '🔂[RETAINED] ATG-7 update parameter list'
+      description: 'Used to send a list of available parameters. The device publishes its parameter metadata at startup and whenever there is a change. (Re-)Connected to ATG - The publisher needs to send (synchronize) the full state to the ATG.'
+      tags:
+        - device
+      parameters:
+        -
+          $ref: '#/definitions/undefined'
+      responses:
+        default:
+          schema: {$ref: '#/definitions/ParameterMetadata'}
+  'vsi-process-control/v1/device/parameter-values/{srcSystem}/{srcInstance}':
+    post:
+      summary: 'ATG-7 update parameter values'
+      description: 'Used to send a list of changed parameters from the device to the control. The device publishes its parameter values at startup and whenever there is a change. (Re-)Connected to ATG - The publisher needs to send (synchronize) the full state to the ATG.'
+      tags:
+        - device
+      parameters:
+        -
+          $ref: '#/definitions/undefined'
+      responses:
+        default:
+          schema: {$ref: '#/definitions/ParameterValues'}
+  'vsi-process-control/v1/control/parameter-values:set/{srcSystem}/{srcInstance}/{dstSystem}/{dstInstance}/{conversationId}':
+    post:
+      summary: 'ATG-7 change parameter values'
+      description: 'Issue a set request to the device to change its parameter value(s).'
+      tags:
+        - control
+      parameters:
+        -
+          $ref: '#/definitions/undefined'
+      responses:
+        default:
+          schema: {$ref: '#/definitions/ParameterValues'}
+  'vsi-process-control/v1/device/parameter-values:set:status/{srcSystem}/{srcInstance}/{dstSystem}/{dstInstance}/{conversationId}':
+    post:
+      summary: 'ATG-7 change parameter values status'
+      description: 'Issues the parameter values update status (successful or unsuccesful) of a parameter-values:set operation'
+      tags:
+        - device
+      parameters:
+        -
+          $ref: '#/definitions/undefined'
+      responses:
+        default:
+          schema: {$ref: '#/definitions/RequestStatus'}
+  'vsi-process-control/v1/device/messages/{srcSystem}/{srcInstance}':
+    post:
+      summary: 'ATG-8 update messages'
+      description: 'Used to send messages (alarms) from the device to the control. (Re-)Connected to ATG - The publisher needs to send (synchronize) the full state to the ATG.'
+      tags:
+        - device
+      parameters:
+        -
+          $ref: '#/definitions/undefined'
+      responses:
+        default:
+          schema: {$ref: '#/definitions/Messages'}
+  'vsi-process-control/v1/device/fill-levels/{srcSystem}/{srcInstance}':
+    post:
+      summary: 'ATG-9 update live data'
+      description: 'Used to send live data (fill level) from the device to the control. (Re-)Connected to ATG - The publisher needs to send (synchronize) the full state to the ATG.'
+      tags:
+        - device
+      parameters:
+        -
+          $ref: '#/definitions/undefined'
+      responses:
+        default:
+          schema: {$ref: '#/definitions/FillLevels'}
+  'vsi-process-control/v1/device/read-rates/{srcSystem}/{srcInstance}':
+    post:
+      summary: 'ATG-9 update live data'
+      description: 'Used to send live data (read rate) from the device to the control. The frequency of the data event is configurable (default 1 minute). (Re-)Connected to ATG - The publisher needs to send (synchronize) the full state to the ATG.'
+      tags:
+        - device
+      parameters:
+        -
+          $ref: '#/definitions/undefined'
+      responses:
+        default:
+          schema: {$ref: '#/definitions/ReadRates'}
+  'vsi-process-control/v1/device/track-events/{srcSystem}/{srcInstance}':
+    post:
+      summary: 'ATG-10 update track events'
+      description: 'Used to send track events from the device to the control. (Re-)Connected to ATG - The publisher needs to buffer all unsent messages for at least 1 day until the message is sent successfully to the ATG.'
+      tags:
+        - device
+      parameters:
+        -
+          $ref: '#/definitions/undefined'
+      responses:
+        default:
+          schema: {$ref: '#/definitions/TrackEvents'}
+  'vsi-process-control/v1/device/statistics/{srcSystem}/{srcInstance}':
+    post:
+      summary: 'ATG-11 update statistics'
+      description: 'Used to send statistics from the device to the control. The frequency of the data event is configurable (default 5 minutes). (Re-)Connected to ATG - The publisher needs to buffer all unsent messages for at least 1 day until the message is sent successfully to the ATG.'
+      tags:
+        - device
+      parameters:
+        -
+          $ref: '#/definitions/undefined'
+      responses:
+        default:
+          schema: {$ref: '#/definitions/Statistics'}
+  'vsi-process-control/v1/control/software:restart/{srcSystem}/{srcInstance}/{dstSystem}/{dstInstance}/{conversationId}':
+    post:
+      summary: 'ATG-13 Device-Software neustarten'
+      description: 'Used to restart the device from the control'
+      tags:
+        - control
+      parameters:
+        -
+          $ref: '#/definitions/undefined'
+      responses:
+        default:
+          schema: {$ref: '#/definitions/SoftwareRestartRequest'}
+  'vsi-process-control/v1/device/software:restart:status/{srcSystem}/{srcInstance}/{dstSystem}/{dstInstance}/{conversationId}':
+    post:
+      summary: 'ATG-13 Device-Software neustarten'
+      description: 'Issues the restart status (successful or unsuccesful) of a restart operation.'
+      tags:
+        - device
+      parameters:
+        -
+          $ref: '#/definitions/undefined'
+      responses:
+        default:
+          schema: {$ref: '#/definitions/RequestStatus'}
+  'vsi-process-control/v1/control/hardware:reboot/{srcSystem}/{srcInstance}/{dstSystem}/{dstInstance}/{conversationId}':
+    post:
+      summary: 'ATG-14 Device-Hardware neustarten (boot)'
+      description: 'Used to reboot the device''s host from the control'
+      tags:
+        - control
+      parameters:
+        -
+          $ref: '#/definitions/undefined'
+      responses:
+        default:
+          schema: {$ref: '#/definitions/HardwareRebootRequest'}
+  'vsi-process-control/v1/device/hardware:reboot:status/{srcSystem}/{srcInstance}/{dstSystem}/{dstInstance}/{conversationId}':
+    post:
+      summary: 'ATG-14 Device-Hardware neustarten (boot)'
+      description: 'Issues the reboot status (successful or unsuccesful) of a reboot operation.'
+      tags:
+        - device
+      parameters:
+        -
+          $ref: '#/definitions/undefined'
+      responses:
+        default:
+          schema: {$ref: '#/definitions/RequestStatus'}
+definitions:
+  ClientState:
+    type: string
+    enum:
+      - CONNECTED
+      - DISCONNECTED
+      - BROKEN
+    id: ClientState
+  ClientStatus:
+    type: object
+    properties:
+      state:
+        $ref: '#/definitions/ClientState'
+      timestamp:
+        type: string
+        description: 'The date+timestamp which identifies the point in time, where the information was generated, including milliseconds.'
+        format: date-time
+    required:
+      - state
+    additionalProperties: false
+    id: ClientStatus
+  FillLevel:
+    type: object
+    properties:
+      processPoint:
+        type: string
+        description: 'The location where the information was generated. (Siehe Anlagen Bezeichnungskonzept)'
+      total:
+        type: integer
+        description: 'Number of parcels actually at the processpoint (Sorter / Conveyor).'
+        minimum: 0
+      capacity:
+        type: integer
+        description: 'Maximum number of parcels the processpoint (Sorter / Conveyor) can buffer. xy'
+        minimum: 0
+      noDestination:
+        type: integer
+        description: 'Number of parcels with no destination.'
+        minimum: 0
+      destinationMCS:
+        type: integer
+        description: 'Number of parcels with destination MCS.'
+        minimum: 0
+      destinationReject:
+        type: integer
+        description: 'Number of parcels with destination reject.'
+        minimum: 0
+    required:
+      - processPoint
+      - total
+      - capacity
+      - noDestination
+      - destinationMCS
+      - destinationReject
+    additionalProperties: false
+    description: 'The actual fill level of the parcel sorter. The fill level will be used for visualization and control purposes.'
+    id: FillLevel
+  FillLevels:
+    type: object
+    properties:
+      timestamp:
+        type: string
+        description: 'The date+timestamp which identifies the point in time, where the information was generated, including milliseconds.'
+        format: date-time
+      fillLevels:
+        type: array
+        items:
+          $ref: '#/definitions/FillLevel'
+    required:
+      - timestamp
+      - fillLevels
+    additionalProperties: false
+    description: 'Contains an array of fill levels.'
+    id: FillLevels
+  HardwareRebootRequest:
+    type: object
+    properties:
+      timestamp:
+        type: string
+        description: 'The date+timestamp which identifies the point in time, where the reboot request was generated, including milliseconds.'
+        format: date-time
+    required:
+      - timestamp
+    additionalProperties: false
+    id: HardwareRebootRequest
+  MessagePriority:
+    type: string
+    enum:
+      - INFO
+      - WARNING
+      - ALARM
+      - ERROR
+    id: MessagePriority
+  MessageState:
+    type: string
+    enum:
+      - NONE
+      - APPEAR
+      - DISAPPEAR
+    description: "Defines the alarm states.\nList of values:\n- NONE: used for events which occur at a specific timestamp\n- APPEAR / DISAPPEAR: used for events which can appear for a certain time slice."
+    id: MessageState
+  Message:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: "An id, identifying the message. With the help of this Id and the language of the end user, the message text is localized.\nThe id must be unique within the context of the machine (Systemname plus SystemInstance) that generated the message."
+      initiator:
+        type: string
+        description: "String parameter identifying the source of the message. If the source is unknown a kind of text \"Machine\" must be supplied.\nAs a general rule, the definition of the initiator should be aligned with the module identification of the group messages.\nFor example, the unique plant part identification (AKZ) can be very suitable for that purpose.\nThe initiator is a third layer underneath the systemname and systeminstance to identify the source of the error."
+      priority:
+        $ref: '#/definitions/MessagePriority'
+        description: 'The priority of the Message.'
+      state:
+        $ref: '#/definitions/MessageState'
+        description: "Identifies the mode of the message. In the visualization a message may APPEAR, typically if this is an error.\nIf the problem was fixed there is typically a DISAPPEAR message of type information to indicate that the problem has gone."
+      acknowledge:
+        type: boolean
+        description: 'If the message needs to be acknowledged by an operator.'
+      text:
+        type: string
+        description: "English description text as default fault/warning message with possibilities to insert parameters inJava Text-like format\nwith %N or $N syntax for identification of the N-th parameter.\nNormally the language specific text from the EMPS database will be used instead of this default text."
+      parameters:
+        type: array
+        items:
+          type: string
+        description: 'Parameters for the above mentioned text / text referenced by the id.'
+    required:
+      - id
+      - initiator
+      - priority
+      - state
+      - acknowledge
+      - text
+    additionalProperties: false
+    description: 'A message is a textual string giving some reasonable information to a message tracking system of the Mail Information System. The group "Messages" implements the messages (errors, alarms, warnings, informations) generated by a piece of mail processing equipment (MPE). The message parameters defined above are the attributes of this group. This group is defined to be a notifylist. When a new message is created, a new element of this notifylist is created. The machine has to store all messages until the message has been successfully handled by the JMS server (as any Notifylist element, this is a general mechanism for Notifylists). The storage timeframe has to be adjustable to project needs, depending on the availability of the MIS role (normally in the range of half an hour up to 3 hours). Associated to the Message Id, there must be a (language dependent) message text, which has a Java-Text like escape character notation (%1, $1) that allows the text assembly with the provided sequence of (string) parameters. Note that the numbers the escape characters start with 1and that string parameters cannot be translated, they will normally be numbers passed as strings. The interpretation is done according to the escape parameters inside the message text. The Text parameter is only displayed if no language dependent message text can be found for a given Id. The general XML mapping of this element is Messages. As this is a NotifylistElement the header will hold a timestamp that indicates when the problem occured.'
+    id: Message
+  Messages:
+    type: object
+    properties:
+      timestamp:
+        type: string
+        description: 'The date+timestamp which identifies the point in time, where the information was generated, including milliseconds.'
+        format: date-time
+      messages:
+        type: array
+        items:
+          $ref: '#/definitions/Message'
+    required:
+      - timestamp
+      - messages
+    additionalProperties: false
+    description: 'Used to send message (alarms) from the device to the control.'
+    id: Messages
+  ModuleState:
+    type: object
+    properties:
+      name:
+        type: string
+      value:
+        type: integer
+        description: "Module state\nTechsys: \n  - publish statuschange: RDY=0,DSA=1,ERR=2\n  - set status: ENA=10,DISA=11"
+        minimum: 0
+    required:
+      - name
+      - value
+    additionalProperties: false
+    id: ModuleState
+  OverallState:
+    type: object
+    properties:
+      timestamp:
+        type: string
+        description: 'The date+timestamp which identifies the point in time, where the information was generated, including milliseconds.'
+        format: date-time
+      machineState:
+        type: integer
+        description: "This is the single attribute which has a predefined name.\nIt represents the overall state of the machine represented by the Sorter instance.\nIf the Sorter is not able to calculate the overall state this value is not to be sent."
+        minimum: 0
+      moduleStates:
+        type: array
+        items:
+          $ref: '#/definitions/ModuleState'
+        description: "The set of attributes transmitting substates of a Sorter. This elements stands for a specific visualisation element / state variable.\nThere exists as many instances of this attribute in the group as necessary to express all state information of the Sorter role."
+    required:
+      - timestamp
+      - machineState
+      - moduleStates
+    additionalProperties: false
+    description: 'Contains an overall machine state and a list of (sub) moduleStates.'
+    id: OverallState
+  ParameterMetadata:
+    type: object
+    properties:
+      timestamp:
+        type: string
+        description: 'The date+timestamp which identifies the point in time, where the information was generated, including milliseconds.'
+        format: date-time
+      parameters:
+        type: array
+        items:
+          $ref: '#/definitions/Parameter'
+        description: 'List of parameters to be set.'
+        minItems: 1
+    required:
+      - timestamp
+      - parameters
+    additionalProperties: false
+    description: 'Contains exactly one main element, based on the use case (XOR).'
+    id: ParameterMetadata
+  ParameterType:
+    type: string
+    enum:
+      - BOOLEAN
+      - INTEGER
+      - STRING
+      - DATE
+      - TIME
+      - DATE_TIME
+    description: "The type of a parameter value.\nEncoding / formatting follow the same rules as JSON encoding (i.e. String encoding = UTF8, dates = ISO 8601, booleans = true/false)"
+    id: ParameterType
+  ParameterValue:
+    type: object
+    properties:
+      name:
+        type: string
+        description: 'The name of the parameter for which the value is changed.'
+      newValue:
+        type: string
+        description: 'The new/requested value of the parameter.'
+      type:
+        $ref: '#/definitions/ParameterType'
+      oldValue:
+        type: string
+        description: 'The current/previous value of the parameter.'
+    required:
+      - name
+      - newValue
+    additionalProperties: false
+    id: ParameterValue
+  ParameterValues:
+    type: object
+    properties:
+      timestamp:
+        type: string
+        description: 'The date+timestamp which identifies the point in time, where the information was generated, including milliseconds.'
+        format: date-time
+      parameterValues:
+        type: array
+        items:
+          $ref: '#/definitions/ParameterValue'
+        description: 'List of parameter values.'
+        minItems: 1
+    required:
+      - timestamp
+      - parameterValues
+    additionalProperties: false
+    description: 'Contains exactly one main element, based on the use case (XOR).'
+    id: ParameterValues
+  Parameter:
+    type: object
+    properties:
+      name:
+        type: string
+        description: 'The name of the parameter.'
+        minimum: 55
+      modifiable:
+        type: boolean
+        description: 'True if parameter is modifiable, false otherwise.'
+      factoryValue:
+        type: string
+        description: 'The factory setting of parameter value.'
+        minimum: 50
+      type:
+        $ref: '#/definitions/ParameterType'
+      min:
+        type: string
+        description: "For Integer, Date. Time and DateTime types the min value defines the lower limit of the value range.\nFor String value it defines the min length of the String."
+        minimum: 25
+      max:
+        type: string
+        description: "For Integer, Date. Time and DateTime types the max value defines the upper limit of the value range including the max value.\nFor String value it defines the max length of the String."
+        minimum: 25
+      description:
+        type: string
+        description: 'The default description of the parameter.'
+        minimum: 2000
+    required:
+      - name
+      - modifiable
+      - type
+      - description
+    additionalProperties: false
+    id: Parameter
+  ReadRate:
+    type: object
+    properties:
+      processPoint:
+        type: string
+        description: 'The location where the information was generated. (Siehe Anlagen Bezeichnungskonzept)'
+      total:
+        type: integer
+        description: 'Total number of parcel passed the reading device.'
+        minimum: 0
+      read:
+        type: integer
+        description: 'Number of parcel successfully read at processpoint and the cen-mc-rc.submit-mailpiece event has been sent to the coding system.'
+        minimum: 0
+    required:
+      - processPoint
+      - total
+      - read
+    additionalProperties: false
+    description: 'The read rate event of an element. The counter will be used for visualization and statistic purposes.'
+    id: ReadRate
+  ReadRates:
+    type: object
+    properties:
+      timestamp:
+        type: string
+        description: 'The date+timestamp which identifies the point in time, where the information was generated, including milliseconds.'
+        format: date-time
+      readRates:
+        type: array
+        items:
+          $ref: '#/definitions/ReadRate'
+    required:
+      - timestamp
+    additionalProperties: false
+    description: 'Contains an array of read rates.'
+    id: ReadRates
+  RequestState:
+    type: string
+    enum:
+      - OK
+      - ERROR
+      - PROCESSING
+    id: RequestState
+  RequestStatus:
+    type: object
+    properties:
+      timestamp:
+        type: string
+        description: 'The date+timestamp which identifies the point in time, where the information was generated, including milliseconds.'
+        format: date-time
+      state:
+        $ref: '#/definitions/RequestState'
+      message:
+        type: string
+        description: "May contain additional information on the status, e.g. error reason\nin case of ERROR. Messages are not meant to be processed\nautomatically but should just be used for problem\ntracking."
+    required:
+      - timestamp
+      - state
+    additionalProperties: false
+    description: 'Response of the device to a Request.'
+    id: RequestStatus
+  SoftwareRestartRequest:
+    type: object
+    properties:
+      timestamp:
+        type: string
+        description: 'The date+timestamp which identifies the point in time, where the restart request was generated, including milliseconds.'
+        format: date-time
+    required:
+      - timestamp
+    additionalProperties: false
+    id: SoftwareRestartRequest
+  SortReason:
+    type: string
+    enum:
+      - UNKNOWN
+      - OK
+      - MAX_RECIRCULATION
+      - ITEM_NO_READ
+      - ITEM_MULTIPLE_READ
+      - SCANNER_TIMEOUT
+      - ITEM_STRAY
+      - ITEM_INDUCTION_ERROR
+      - ITEM_DISCHARGE_ERROR
+      - ITEM_ERROR
+      - ITEM_TRACKING_ERROR
+      - ITEM_OCCUPIED_TWICE_ERROR
+      - ITEM_DISAPPEARED
+      - OUTLET_NOT_AVAILABLE
+      - OUTLET_UNKNOWN
+      - UNDEFINED_ERROR
+      - NO_CAPACITY
+      - DIMENSION_ERROR
+      - WEIGHT_ERROR
+      - SORTPLAN_ERROR
+      - DIRECT_SORTING_MODE
+      - ITEM_NO_SORTCODE
+      - OUTLET_MISSED
+    description: "Defines the machine specific sort reasons.\nList of values:\n- UNKNOWN: Default enum value to map not supported values.\n- OK: Discharge OK. This describes just a \"regular\" item\n- MAX_RECIRCULATION: Item has reached the max allowed amount of recirculations.\n- ITEM_NO_READ: Item has reached the max allowed amount of scans and the last attempt was a no read.\n- ITEM_MULTIPLE_READ: Multiple national or international id barcodes could be identified. \n- SCANNER_TIMEOUT: Item has reached the max allowed amount of scans and the last attempt was a \"no answer\" from scanner. \n- ITEM_STRAY: Stray item detected. \n- ITEM_INDUCTION_ERROR: Induction error item detected (occupied twice, wrong tray). \n- ITEM_DISCHARGE_ERROR: Discharge faults. \n- ITEM_ERROR: Item has a Logical error. \n- ITEM_TRACKING_ERROR: item was inducted with tracking fault.\n- ITEM_OCCUPIED_TWICE_ERROR: item was inducted on occupied tray.\n- ITEM_DISAPPEARED: The parcel was lost at unknown location.\n- OUTLET_NOT_AVAILABLE: No available chute could be found.\n- OUTLET_UNKNOWN: Logical destination not defined.\n- UNDEFINED_ERROR: Internal error happened.\n- NO_CAPACITY: The destination outlet has no more capacity.\n- DIMENSION_ERROR: Item oversize. The parcel was discharge, because of dimension exceed. \n- WEIGHT_ERROR: Item too heavy. The parcel was discharge, because of weight exceed.\n- SORTPLAN_ERROR: Sortplan error. \n- DIRECT_SORTING_MODE: Item sorted by the direct sorting mode. \n- ITEM_NO_SORTCODE: No sortcode has been received for this item. \n- OUTLET_MISSED: Sortcode has been updated (push or repetitive requests), physical outlet already passed."
+    id: SortReason
+  StatisticsType:
+    type: string
+    enum:
+      - UNKNOWN
+      - INDUCTION
+      - CHUTE
+      - SCANNER
+      - SORTER
+      - TRAY_STAT
+      - DESTINATION_STAT
+      - SPECIAL_DESTINATION
+      - ACS_STAT
+    description: "StatisticsType defines the contents in the statistics values.\nList of values:\n- UNKNOWN: Default enum value to map not supported values.\n- INDUCTION: induction statistics (Einschleusung-Statistik)\n- CHUTE: physical sort destination statistics (Endstellen-Statistik).\n- SCANNER: scanner statistics (DWS-Statistik).\n- SORTER: Up- and Downtime statistics (Sorter Verfügbarkeit-Statistik).\n- TRAY_STAT: tray load statistics (Schalenauslastung-Statistik).\n- DESTINATION_STAT: logical sort destination statistics (Zielstatistik).\n- SPECIAL_DESTINATION: special sort statistics (Sonderziel- / Fehlerart-Statistik).\n- ACS_STAT: Automatic Coding System statistics (Codiersystem-Statistik)"
+    id: StatisticsType
+  Statistics:
+    type: object
+    properties:
+      timestamp:
+        type: string
+        description: 'The date+timestamp which identifies the point in time, where the information was generated, including milliseconds.'
+        format: date-time
+      stats:
+        type: array
+        items:
+          $ref: '#/definitions/Stats'
+    required:
+      - timestamp
+    additionalProperties: false
+    description: 'Used to send statistics data from the device to the control.'
+    id: Statistics
+  Stats:
+    type: object
+    properties:
+      timeSliceStart:
+        type: string
+        description: 'The timestamp identifies the beginning of the time slice. A separate timestamp is needed to correct the values from the previous statistics event.'
+        format: date-time
+      timeSlice:
+        type: integer
+        description: 'The time period in minutes when the statistics data was collected.'
+        minimum: 1
+      processPoint:
+        type: string
+        description: 'The location where the information was generated. (Siehe Anlagen Bezeichnungskonzept)'
+      type:
+        $ref: '#/definitions/StatisticsType'
+      values:
+        type: array
+        items:
+          type: string
+    required:
+      - timeSliceStart
+      - timeSlice
+      - processPoint
+      - type
+      - values
+    additionalProperties: false
+    description: 'The statistic event of an element. The statistic will be used for visualization and control purposes.'
+    id: Stats
+  TrackEventType:
+    type: string
+    enum:
+      - UNKNOWN
+      - INDUCTION
+      - TRACK
+      - DISCHARGE
+    description: "Defines the track event type.\nList of values:\n- UNKNOWN: Default enum value to map not supported values.\n- INDUCTION: Event occured during induction\n- TRACK: Event occured on the sorter\n- DISCHARGE: Event occured during discharge"
+    id: TrackEventType
+  TrackEvent:
+    type: object
+    properties:
+      eventType:
+        $ref: '#/definitions/TrackEventType'
+      processPoint:
+        type: string
+        description: 'The location where the information was generated. (Siehe Anlagen Bezeichnungskonzept)'
+      itemId:
+        type: string
+        description: 'The id of the mailpiece assigned by the sorting machine during sorting.'
+      mailpieceId:
+        type: string
+        description: 'Represents the national identifier for the mailpiece item.'
+        pattern: '(98|99)[0-9]{16}'
+      dischargeReason:
+        $ref: '#/definitions/SortReason'
+        description: 'Reason of discharge. Only relevant for discharge events.'
+    required:
+      - eventType
+      - processPoint
+      - itemId
+    additionalProperties: false
+    description: 'The track event of an parcel. The event will be used for statistic purpose.'
+    id: TrackEvent
+  TrackEvents:
+    type: object
+    properties:
+      timestamp:
+        type: string
+        description: 'The date+timestamp which identifies the point in time, where the information was generated, including milliseconds.'
+        format: date-time
+      trackEvents:
+        type: array
+        items:
+          $ref: '#/definitions/TrackEvent'
+    required:
+      - timestamp
+      - trackEvents
+    additionalProperties: false
+    description: 'This element represents an event-driven data generation of a piece of MPE.'
+    id: TrackEvents

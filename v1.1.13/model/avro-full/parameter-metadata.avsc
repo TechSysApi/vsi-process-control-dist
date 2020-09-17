@@ -1,0 +1,86 @@
+{
+  "namespace": "ParameterMetadata",
+  "name": "main",
+  "type": "record",
+  "doc": "Contains exactly one main element, based on the use case (XOR).",
+  "fields": [
+    {
+      "name": "timestamp",
+      "doc": "The date+timestamp which identifies the point in time, where the information was generated, including milliseconds.",
+      "type": "string"
+    },
+    {
+      "name": "parameters",
+      "doc": "List of parameters to be set.",
+      "type": {
+        "type": "array",
+        "items": {
+          "type": "record",
+          "name": "Parameter",
+          "fields": [
+            {
+              "name": "name",
+              "doc": "The name of the parameter.",
+              "type": "string"
+            },
+            {
+              "name": "modifiable",
+              "doc": "True if parameter is modifiable, false otherwise.",
+              "type": "boolean"
+            },
+            {
+              "name": "factoryValue",
+              "doc": "The factory setting of parameter value.",
+              "default": null,
+              "type": [
+                "null",
+                "string"
+              ]
+            },
+            {
+              "name": "type",
+              "doc": true,
+              "type": [
+                "null",
+                "enum",
+                "string"
+              ],
+              "symbols": [
+                "BOOLEAN",
+                "INTEGER",
+                "STRING",
+                "DATE",
+                "TIME",
+                "DATE_TIME"
+              ],
+              "default": null
+            },
+            {
+              "name": "min",
+              "doc": "For Integer, Date. Time and DateTime types the min value defines the lower limit of the value range.\nFor String value it defines the min length of the String.",
+              "default": null,
+              "type": [
+                "null",
+                "string"
+              ]
+            },
+            {
+              "name": "max",
+              "doc": "For Integer, Date. Time and DateTime types the max value defines the upper limit of the value range including the max value.\nFor String value it defines the max length of the String.",
+              "default": null,
+              "type": [
+                "null",
+                "string"
+              ]
+            },
+            {
+              "name": "description",
+              "doc": "The default description of the parameter.",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

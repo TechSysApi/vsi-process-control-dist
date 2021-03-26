@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "definitions": {},
+  "type": "object",
+  "properties": {
+    "timestamp": {
+      "type": "string",
+      "description": "The date+timestamp which identifies the point in time, where the information was generated, including milliseconds.",
+      "format": "date-time"
+    },
+    "parameters": {
+      "type": "array",
+      "items": {
+        "$ref": "parameter.json"
+      },
+      "description": "List of parameters to be set.",
+      "minItems": 1
+    }
+  },
+  "required": [
+    "timestamp",
+    "parameters"
+  ],
+  "additionalProperties": false,
+  "description": "Contains exactly one main element, based on the use case (XOR).",
+  "id": "ParameterMetadata",
+  "dotnetNamespace": "Ch.Post.PL.Api.VsiProcessControl.V1"
+}

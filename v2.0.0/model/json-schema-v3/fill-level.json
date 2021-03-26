@@ -1,0 +1,46 @@
+{
+  "$schema": "http://json-schema.org/draft-03/schema#",
+  "definitions": {},
+  "type": "object",
+  "properties": {
+    "processPoint": {
+      "type": "string",
+      "description": "The location where the information was generated. (Siehe Anlagen Bezeichnungskonzept)",
+      "required": true
+    },
+    "total": {
+      "type": "integer",
+      "description": "Number of parcels actually at the processpoint (Sorter / Conveyor).",
+      "minimum": 0,
+      "required": true
+    },
+    "capacity": {
+      "type": "integer",
+      "description": "Maximum number of parcels the processpoint (Sorter / Conveyor) can buffer. xy",
+      "minimum": 0,
+      "required": true
+    },
+    "noDestination": {
+      "type": "integer",
+      "description": "Number of parcels with no destination.",
+      "minimum": 0,
+      "required": true
+    },
+    "destinationMCS": {
+      "type": "integer",
+      "description": "Number of parcels with destination MCS.",
+      "minimum": 0,
+      "required": true
+    },
+    "destinationReject": {
+      "type": "integer",
+      "description": "Number of parcels with destination reject.",
+      "minimum": 0,
+      "required": true
+    }
+  },
+  "additionalProperties": false,
+  "description": "The actual fill level of the parcel sorter. The fill level will be used for visualization and control purposes.",
+  "id": "FillLevel",
+  "dotnetNamespace": "Ch.Post.PL.Api.VsiProcessControl.V1"
+}

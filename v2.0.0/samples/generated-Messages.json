@@ -1,0 +1,68 @@
+{
+	"messages": [{
+		"acknowledge": false,
+		"initiator": "Spare",
+		"id": 1603,
+		"state": "APPEAR",
+		"text": "No connection to scanner $1",
+		"priority": "ERROR",
+		"parameters": ["=TRY01.AIM0131+DWS09-241K1"]
+	}, {
+		"acknowledge": false,
+		"initiator": "Spare",
+		"id": 1603,
+		"state": "APPEAR",
+		"text": "No connection to scanner $1",
+		"priority": "ERROR",
+		"parameters": ["=TRY01.AIM0151+DWS09-241K1"]
+	}, {
+		"acknowledge": true,
+		"initiator": "Spare",
+		"id": 91010,
+		"state": "APPEAR",
+		"text": "=ASL No MC connection",
+		"priority": "ALARM",
+		"parameters": []
+	}, {
+		"acknowledge": true,
+		"initiator": "Spare",
+		"id": 1600,
+		"state": "APPEAR",
+		"text": "No connection to MC",
+		"priority": "ALARM",
+		"parameters": []
+	}, {
+		"acknowledge": true,
+		"initiator": "Spare",
+		"id": 91012,
+		"state": "APPEAR",
+		"text": "=ASL DWS Connection Error",
+		"priority": "ALARM",
+		"parameters": []
+	}, {
+		"acknowledge": false,
+		"initiator": "Spare",
+		"id": 1603,
+		"state": "APPEAR",
+		"text": "No connection to scanner $1",
+		"priority": "ERROR",
+		"parameters": ["=TRY01.AIM0111+DWS09-241K1"]
+	}, {
+		"acknowledge": false,
+		"initiator": "Spare",
+		"id": 1603,
+		"state": "APPEAR",
+		"text": "No connection to scanner $1",
+		"priority": "ERROR",
+		"parameters": ["=TRY01.AIM0121+DWS09-241K1"]
+	}, {
+		"acknowledge": true,
+		"initiator": "Spare",
+		"id": 91011,
+		"state": "APPEAR",
+		"text": "=ASL Module Fatal Error",
+		"priority": "ALARM",
+		"parameters": []
+	}],
+	"timestamp": "2019-09-02T14:00:02.4467068+02:00"
+}

@@ -1,0 +1,274 @@
+swagger: 2
+info:
+  title: 'VSI Process Control'
+  description: 'Describes the protocol of the device to the control software (Leitstand)'
+  contact:
+    name: 'Kay Herzam (Swiss Post)'
+    email: kay.herzam@post.ch
+  version: 2.0.1
+host: 'server:1883'
+basePath: mqtt
+parameters:
+  sourceDestinationConversationParameters:
+    -
+      name: srcSystem
+      in: path
+      description: '3-letter uppercase name identifying the system issuing the message'
+      type: string
+      default: MDS
+    -
+      name: srcInstance
+      in: path
+      description: 'two-digit padded number identifying the system instance issuing the message'
+      type: string
+      default: '01'
+    -
+      name: dstSystem
+      in: path
+      description: '3-letter uppercase name identifying the system receiving the message'
+      type: string
+      default: ASL
+    -
+      name: dstInstance
+      in: path
+      description: 'two-digit padded number identifying the system instance receiving the message'
+      type: string
+      default: '01'
+    -
+      name: conversationId
+      in: path
+      description: 'ID that will be included in the get-response topic in order to correlate the messages'
+      type: string
+      default: '12345'
+  sourceSystemInstanceParameters:
+    -
+      name: srcSystem
+      in: path
+      description: '3-letter uppercase name identifying the system issuing the message'
+      type: string
+      default: ASL
+    -
+      name: srcInstance
+      in: path
+      description: 'two-digit padded number identifying the system instance issuing the message'
+      type: string
+      default: '01'
+paths:
+  'vsi-process-control/v1/client/status/{srcSystem}/{srcInstance}':
+    post:
+      summary: '🔂[RETAINED] client connection state'
+      description: 'Used to notify subscribers about client connection state changes'
+      tags:
+        - client
+      parameters:
+        -
+          $ref: '#/definitions/undefined'
+      responses:
+        default:
+          schema: {$ref: '#/definitions/ClientStatus'}
+  'vsi-process-control/v1/device/state/{srcSystem}/{srcInstance}':
+    post:
+      summary: '🔂[RETAINED] ATG-6 update machine state'
+      description: 'Used to send state responses / updates from the device to the control. (Re-)Connected to ATG - The publisher needs to send (synchronize) the full state to the ATG.'
+      tags:
+        - device
+      parameters:
+        -
+          $ref: '#/definitions/undefined'
+      responses:
+        default:
+          schema: {$ref: '#/definitions/OverallState'}
+  'vsi-process-control/v1/control/state:set/{srcSystem}/{srcInstance}/{dstSystem}/{dstInstance}/{conversationId}':
+    post:
+      summary: 'ATG-6 Change machine state'
+      description: 'Issue a set request to the device to change its state (or a sub module state).'
+      tags:
+        - control
+      parameters:
+        -
+          $ref: '#/definitions/undefined'
+      responses:
+        default:
+          schema: {$ref: '#/definitions/OverallState'}
+  'vsi-process-control/v1/device/state:set:status/{srcSystem}/{srcInstance}/{dstSystem}/{dstInstance}/{conversationId}':
+    post:
+      summary: 'ATG-6 Change machine state'
+      description: 'Issues the state update status (successful or unsuccesful) of a state:set operation'
+      tags:
+        - device
+      parameters:
+        -
+          $ref: '#/definitions/undefined'
+      responses:
+        default:
+          schema: {$ref: '#/definitions/RequestStatus'}
+  'vsi-process-control/v1/device/parameter-metadata/{srcSystem}/{srcInstance}':
+    post:
+      summary: '🔂[RETAINED] ATG-7 update parameter list'
+      description: 'Used to send a list of available parameters. The device publishes its parameter metadata at startup and whenever there is a change. (Re-)Connected to ATG - The publisher needs to send (synchronize) the full state to the ATG.'
+      tags:
+        - device
+      parameters:
+        -
+          $ref: '#/definitions/undefined'
+      responses:
+        default:
+          schema: {$ref: '#/definitions/ParameterMetadata'}
+  'vsi-process-control/v1/device/parameter-values/{srcSystem}/{srcInstance}':
+    post:
+      summary: 'ATG-7 update parameter values'
+      description: 'Used to send a list of changed parameters from the device to the control. The device publishes its parameter values at startup and whenever there is a change. (Re-)Connected to ATG - The publisher needs to send (synchronize) the full state to the ATG.'
+      tags:
+        - device
+      parameters:
+        -
+          $ref: '#/definitions/undefined'
+      responses:
+        default:
+          schema: {$ref: '#/definitions/ParameterValues'}
+  'vsi-process-control/v1/control/parameter-values:set/{srcSystem}/{srcInstance}/{dstSystem}/{dstInstance}/{conversationId}':
+    post:
+      summary: 'ATG-7 change parameter values'
+      description: 'Issue a set request to the device to change its parameter value(s).'
+      tags:
+        - control
+      parameters:
+        -
+          $ref: '#/definitions/undefined'
+      responses:
+        default:
+          schema: {$ref: '#/definitions/ParameterValues'}
+  'vsi-process-control/v1/device/parameter-values:set:status/{srcSystem}/{srcInstance}/{dstSystem}/{dstInstance}/{conversationId}':
+    post:
+      summary: 'ATG-7 change parameter values status'
+      description: 'Issues the parameter values update status (successful or unsuccesful) of a parameter-values:set operation'
+      tags:
+        - device
+      parameters:
+        -
+          $ref: '#/definitions/undefined'
+      responses:
+        default:
+          schema: {$ref: '#/definitions/RequestStatus'}
+  'vsi-process-control/v1/device/messages/{srcSystem}/{srcInstance}':
+    post:
+      summary: 'ATG-8 update messages'
+      description: 'Used to send messages (alarms) from the device to the control. (Re-)Connected to ATG - The publisher needs to send (synchronize) the full state to the ATG.'
+      tags:
+        - device
+      parameters:
+        -
+          $ref: '#/definitions/undefined'
+      responses:
+        default:
+          schema: {$ref: '#/definitions/Messages'}
+  'vsi-process-control/v1/device/fill-levels/{srcSystem}/{srcInstance}':
+    post:
+      summary: 'ATG-9 update live data'
+      description: 'Used to send live data (fill level) from the device to the control. (Re-)Connected to ATG - The publisher needs to send (synchronize) the full state to the ATG.'
+      tags:
+        - device
+      parameters:
+        -
+          $ref: '#/definitions/undefined'
+      responses:
+        default:
+          schema: {$ref: '#/definitions/FillLevels'}
+  'vsi-process-control/v1/device/read-rates/{srcSystem}/{srcInstance}':
+    post:
+      summary: 'ATG-9 update live data'
+      description: 'Used to send live data (read rate) from the device to the control. The frequency of the data event is configurable (default 1 minute). (Re-)Connected to ATG - The publisher needs to send (synchronize) the full state to the ATG.'
+      tags:
+        - device
+      parameters:
+        -
+          $ref: '#/definitions/undefined'
+      responses:
+        default:
+          schema: {$ref: '#/definitions/ReadRates'}
+  'vsi-process-control/v1/device/track-events/{srcSystem}/{srcInstance}':
+    post:
+      summary: 'ATG-10 update track events'
+      description: 'Used to send track events from the device to the control. (Re-)Connected to ATG - The publisher needs to buffer all unsent messages for at least 1 day until the message is sent successfully to the ATG.'
+      tags:
+        - device
+      parameters:
+        -
+          $ref: '#/definitions/undefined'
+      responses:
+        default:
+          schema: {$ref: '#/definitions/TrackEvents'}
+  'vsi-process-control/v1/device/statistics/{srcSystem}/{srcInstance}':
+    post:
+      summary: 'ATG-11 update statistics'
+      description: 'Used to send statistics from the device to the control. The frequency of the data event is configurable (default 5 minutes). (Re-)Connected to ATG - The publisher needs to buffer all unsent messages for at least 1 day until the message is sent successfully to the ATG.'
+      tags:
+        - device
+      parameters:
+        -
+          $ref: '#/definitions/undefined'
+      responses:
+        default:
+          schema: {$ref: '#/definitions/Statistics'}
+  'vsi-process-control/v1/control/software:restart/{srcSystem}/{srcInstance}/{dstSystem}/{dstInstance}/{conversationId}':
+    post:
+      summary: 'ATG-13 Device-Software neustarten'
+      description: 'Used to restart the device from the control'
+      tags:
+        - control
+      parameters:
+        -
+          $ref: '#/definitions/undefined'
+      responses:
+        default:
+          schema: {$ref: '#/definitions/SoftwareRestartRequest'}
+  'vsi-process-control/v1/device/software:restart:status/{srcSystem}/{srcInstance}/{dstSystem}/{dstInstance}/{conversationId}':
+    post:
+      summary: 'ATG-13 Device-Software neustarten'
+      description: 'Issues the restart status (successful or unsuccesful) of a restart operation.'
+      tags:
+        - device
+      parameters:
+        -
+          $ref: '#/definitions/undefined'
+      responses:
+        default:
+          schema: {$ref: '#/definitions/RequestStatus'}
+  'vsi-process-control/v1/control/hardware:reboot/{srcSystem}/{srcInstance}/{dstSystem}/{dstInstance}/{conversationId}':
+    post:
+      summary: 'ATG-14 Device-Hardware neustarten (boot)'
+      description: 'Used to reboot the device''s host from the control'
+      tags:
+        - control
+      parameters:
+        -
+          $ref: '#/definitions/undefined'
+      responses:
+        default:
+          schema: {$ref: '#/definitions/HardwareRebootRequest'}
+  'vsi-process-control/v1/device/hardware:reboot:status/{srcSystem}/{srcInstance}/{dstSystem}/{dstInstance}/{conversationId}':
+    post:
+      summary: 'ATG-14 Device-Hardware neustarten (boot)'
+      description: 'Issues the reboot status (successful or unsuccesful) of a reboot operation.'
+      tags:
+        - device
+      parameters:
+        -
+          $ref: '#/definitions/undefined'
+      responses:
+        default:
+          schema: {$ref: '#/definitions/RequestStatus'}
+definitions:
+  $ref:
+    - ../ts/common.ts
+    - ../ts/client_status.ts
+    - ../ts/fill_levels.ts
+    - ../ts/messages.ts
+    - ../ts/overall_state.ts
+    - ../ts/parameter_metadata.ts
+    - ../ts/parameter_values.ts
+    - ../ts/read_rates.ts
+    - ../ts/request_status.ts
+    - ../ts/statistics.ts
+    - ../ts/track_events.ts
+    - ../ts/maintenance_requests.ts

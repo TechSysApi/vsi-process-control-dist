@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "definitions": {},
+  "type": "object",
+  "properties": {
+    "timestamp": {
+      "type": "string",
+      "description": "The date+timestamp which identifies the point in time, where the information was generated, including milliseconds.",
+      "format": "date-time"
+    },
+    "readRates": {
+      "type": "array",
+      "items": {
+        "$ref": "read-rate.json"
+      }
+    }
+  },
+  "required": [
+    "timestamp"
+  ],
+  "additionalProperties": false,
+  "description": "Contains an array of read rates.",
+  "id": "ReadRates",
+  "dotnetNamespace": "Ch.Post.PL.Api.VsiProcessControl.V1"
+}

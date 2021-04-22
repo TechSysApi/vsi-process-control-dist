@@ -1,0 +1,57 @@
+{
+  "namespace": "FillLevels",
+  "name": "main",
+  "type": "record",
+  "doc": "Contains an array of fill levels.",
+  "fields": [
+    {
+      "name": "timestamp",
+      "doc": "The date+timestamp which identifies the point in time, where the information was generated, including milliseconds.",
+      "type": "string"
+    },
+    {
+      "name": "fillLevels",
+      "doc": "",
+      "type": {
+        "type": "array",
+        "items": {
+          "type": "record",
+          "name": "FillLevel",
+          "doc": "The actual fill level of the parcel sorter. The fill level will be used for visualization and control purposes.",
+          "fields": [
+            {
+              "name": "processPoint",
+              "doc": "The location where the information was generated. (Siehe Anlagen Bezeichnungskonzept)",
+              "type": "string"
+            },
+            {
+              "name": "total",
+              "doc": "Number of parcels actually at the processpoint (Sorter / Conveyor).",
+              "type": "int"
+            },
+            {
+              "name": "capacity",
+              "doc": "Maximum number of parcels the processpoint (Sorter / Conveyor) can buffer. xy",
+              "type": "int"
+            },
+            {
+              "name": "noDestination",
+              "doc": "Number of parcels with no destination.",
+              "type": "int"
+            },
+            {
+              "name": "destinationMCS",
+              "doc": "Number of parcels with destination MCS.",
+              "type": "int"
+            },
+            {
+              "name": "destinationReject",
+              "doc": "Number of parcels with destination reject.",
+              "type": "int"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

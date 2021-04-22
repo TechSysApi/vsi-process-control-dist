@@ -1,0 +1,32 @@
+{
+  "namespace": "ClientStatus",
+  "name": "main",
+  "type": "record",
+  "fields": [
+    {
+      "name": "state",
+      "doc": "",
+      "type": [
+        {
+          "type": "enum",
+          "name": "ClientState",
+          "symbols": [
+            "CONNECTED",
+            "DISCONNECTED",
+            "BROKEN"
+          ]
+        },
+        "string"
+      ]
+    },
+    {
+      "name": "timestamp",
+      "doc": "The date+timestamp which identifies the point in time, where the information was generated, including milliseconds.",
+      "default": null,
+      "type": [
+        "null",
+        "string"
+      ]
+    }
+  ]
+}

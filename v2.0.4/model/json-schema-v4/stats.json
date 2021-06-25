@@ -1,0 +1,41 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "definitions": {},
+  "type": "object",
+  "properties": {
+    "timeSliceStart": {
+      "type": "string",
+      "description": "The timestamp identifies the beginning of the time slice. A separate timestamp is needed to correct the values from the previous statistics event.",
+      "format": "date-time"
+    },
+    "timeSlice": {
+      "type": "integer",
+      "description": "The time period in minutes when the statistics data was collected.",
+      "minimum": 1
+    },
+    "processPoint": {
+      "type": "string",
+      "description": "The location where the information was generated. (Siehe Anlagen Bezeichnungskonzept)"
+    },
+    "type": {
+      "$ref": "statistics-type.json"
+    },
+    "values": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "timeSliceStart",
+    "timeSlice",
+    "processPoint",
+    "type",
+    "values"
+  ],
+  "additionalProperties": false,
+  "description": "The statistic event of an element. The statistic will be used for visualization and control purposes.",
+  "id": "Stats",
+  "dotnetNamespace": "Ch.Post.PL.Api.VsiProcessControl.V1"
+}

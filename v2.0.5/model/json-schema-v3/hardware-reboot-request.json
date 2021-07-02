@@ -1,0 +1,16 @@
+{
+  "$schema": "http://json-schema.org/draft-03/schema#",
+  "definitions": {},
+  "type": "object",
+  "properties": {
+    "timestamp": {
+      "type": "string",
+      "description": "The date+timestamp which identifies the point in time, where the reboot request was generated, including milliseconds.",
+      "format": "date-time",
+      "required": true
+    }
+  },
+  "additionalProperties": false,
+  "id": "HardwareRebootRequest",
+  "dotnetNamespace": "Ch.Post.PL.Api.VsiProcessControl.V1"
+}

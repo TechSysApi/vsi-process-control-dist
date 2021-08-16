@@ -1,0 +1,17 @@
+{
+  "type": "object",
+  "properties": {
+    "timestamp": {
+      "type": "string",
+      "description": "The date+timestamp which identifies the point in time, where the restart request was generated, including milliseconds.",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "timestamp"
+  ],
+  "additionalProperties": false,
+  "id": "SoftwareRestartRequest",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "definitions": {}
+}

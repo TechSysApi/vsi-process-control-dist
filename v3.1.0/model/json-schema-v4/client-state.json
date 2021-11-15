@@ -1,0 +1,12 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "definitions": {},
+  "type": "string",
+  "enum": [
+    "CONNECTED",
+    "DISCONNECTED",
+    "BROKEN"
+  ],
+  "id": "ClientState",
+  "dotnetNamespace": "Ch.Post.PL.Api.VsiProcessControl.V1"
+}

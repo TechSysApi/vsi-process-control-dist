@@ -1,0 +1,11 @@
+{
+    "fillLevels": [{
+        "total": 0,
+        "destinationMCS": 0,
+        "destinationReject": 0,
+        "processPoint": "=TRY01",
+        "noDestination": 0,
+        "capacity": 433
+    }],
+    "timestamp": "2019-09-02T15:07:00.3737655+02:00"
+}

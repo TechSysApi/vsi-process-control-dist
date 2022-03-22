@@ -1,0 +1,12 @@
+{
+  "namespace": "SynchronizeRequest",
+  "name": "main",
+  "type": "record",
+  "fields": [
+    {
+      "name": "timestamp",
+      "doc": "The date+timestamp which identifies the point in time, when control requested the synchronization of the device.",
+      "type": "string"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "type": "object",
+  "properties": {
+    "state": {
+      "$ref": "#/definitions/ClientState"
+    },
+    "timestamp": {
+      "type": "string",
+      "description": "The date+timestamp which identifies the point in time, where the information was generated, including milliseconds.",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "state"
+  ],
+  "additionalProperties": false,
+  "$id": "#ClientStatus",
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "definitions": {
+    "ClientState": {
+      "type": "string",
+      "enum": [
+        "CONNECTED",
+        "DISCONNECTED",
+        "BROKEN"
+      ],
+      "$id": "#ClientState"
+    }
+  }
+}

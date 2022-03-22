@@ -1,0 +1,19 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "definitions": {},
+  "type": "object",
+  "properties": {
+    "timestamp": {
+      "type": "string",
+      "description": "The date+timestamp which identifies the point in time, when control requested the synchronization of the device.",
+      "format": "date-time",
+      "required": true
+    }
+  },
+  "required": [
+    "timestamp"
+  ],
+  "additionalProperties": false,
+  "$id": "#SynchronizeRequest",
+  "dotnetNamespace": "Ch.Post.PL.Api.VsiProcessControl.V1"
+}

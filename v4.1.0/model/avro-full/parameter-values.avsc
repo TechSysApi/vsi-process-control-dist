@@ -1,0 +1,75 @@
+{
+  "namespace": "ParameterValues",
+  "name": "main",
+  "type": "record",
+  "doc": "Contains exactly one main element, based on the use case (XOR).",
+  "fields": [
+    {
+      "name": "timestamp",
+      "doc": "The date+timestamp which identifies the point in time, where the information was generated, including milliseconds.",
+      "type": "string"
+    },
+    {
+      "name": "locationKey",
+      "doc": "[ACTION] Attribute is required in future releases after WESort is rolled out in all sorting centers.\nUnique identifier of the sorting center (ONRP).",
+      "default": null,
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    {
+      "name": "parameterValues",
+      "doc": "List of parameter values.",
+      "type": {
+        "type": "array",
+        "items": {
+          "type": "record",
+          "name": "ParameterValue",
+          "fields": [
+            {
+              "name": "name",
+              "doc": "The name of the parameter for which the value is changed.",
+              "type": "string"
+            },
+            {
+              "name": "newValue",
+              "doc": "The new/requested value of the parameter.",
+              "type": "string"
+            },
+            {
+              "name": "type",
+              "doc": "The type of a parameter value.\nEncoding / formatting follow the same rules as JSON encoding (i.e. String encoding = UTF8, dates = ISO 8601, booleans = true/false)",
+              "type": [
+                "null",
+                {
+                  "type": "enum",
+                  "name": "type_enum",
+                  "symbols": [
+                    "BOOLEAN",
+                    "INTEGER",
+                    "STRING",
+                    "DATE",
+                    "TIME",
+                    "DATE_TIME"
+                  ]
+                },
+                "string"
+              ],
+              "default": null
+            },
+            {
+              "name": "oldValue",
+              "doc": "The current/previous value of the parameter.",
+              "default": null,
+              "type": [
+                "null",
+                "string"
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

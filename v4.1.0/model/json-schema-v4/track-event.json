@@ -1,0 +1,55 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "definitions": {},
+  "type": "object",
+  "properties": {
+    "eventType": {
+      "$ref": "track-event-type.json"
+    },
+    "processPoint": {
+      "type": "string",
+      "description": "The location where the information was generated. (Siehe Anlagen Bezeichnungskonzept)"
+    },
+    "itemId": {
+      "type": "string",
+      "description": "[DEPRECATED] Is replaced by the attribute processingItemId. Attribute will be removed in future releases after WESort is rolled out in all sorting centers.\nThe id of the mailpiece assigned by the sorting machine during sorting."
+    },
+    "processingItemId": {
+      "type": "string",
+      "description": "[ACTION] Attribute is required in future releases after WESort is rolled out in all sorting centers.\nThe machine specific identifier to track a mail item during a machine sorting cycle. The identifier is used to synchronize the data events between coding and sorting systems.",
+      "maxLength": 32
+    },
+    "mailpieceId": {
+      "type": "string",
+      "description": "[DEPRECATED] Is replaced by the attribute processingItemId. Attribute will be removed in future releases after WESort is rolled out in all sorting centers.\nThe machine specific identifier to track a mail item during a machine sorting cycle. The identifier is used to synchronize the data events between coding and sorting systems.",
+      "maxLength": 200
+    },
+    "dischargeReason": {
+      "$ref": "sort-reason.json",
+      "description": "Reason of discharge. Only relevant for discharge events."
+    },
+    "sourceId": {
+      "type": "string",
+      "description": "Refers to a module id as event-source, e.g. DWS02",
+      "pattern": "[A-Z]{3}[0-9]{2}"
+    },
+    "blockId": {
+      "type": "string",
+      "description": "Machine specific identifier to track a group of parcels."
+    },
+    "mailpieceAttributes": {
+      "$ref": "../../../node_modules/-api-dependencies/ts/@ch-post/cen-mc-rc-stream-api/dist/model/json-schema-v4/mailpiece-attr.json",
+      "description": "<b>Dependency:</b> The MailpieceAttrT type is imported from cen-mc-rc-stream-api where it is used for the submit-mailpiece topic\nThe MailpieceAttrT type provides basic mailpiece related information:\n- the kind of the mail item\n- the mailclass of the mail item; important for the ED because it and may affect the address recognition\n- the scanned faces of the mail item. The FaceSetT type is assigned to faces and allows providing a sequence of faces.\n   The FaceSetT types allows to link a face with the corresponding image by a page attribute.\n- a preknowledge result if a barcode reader or some other type of Enrichment Device is directly attached to the MC.\n   This result will be in accordance with the result type specified in the IC-ED interface."
+    }
+  },
+  "required": [
+    "eventType",
+    "processPoint",
+    "itemId",
+    "sourceId"
+  ],
+  "additionalProperties": false,
+  "description": "The track event of an parcel. The event will be used for statistic purpose.",
+  "id": "TrackEvent",
+  "dotnetNamespace": "Ch.Post.PL.Api.VsiProcessControl.V1"
+}

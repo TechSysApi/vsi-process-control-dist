@@ -1,0 +1,57 @@
+{
+  "type": "object",
+  "properties": {
+    "timestamp": {
+      "type": "string",
+      "description": "The date+timestamp which identifies the point in time, where the information was generated, including milliseconds.",
+      "format": "date-time"
+    },
+    "locationKey": {
+      "type": "string",
+      "description": "[ACTION] Attribute is required in future releases after WESort is rolled out in all sorting centers.\nUnique identifier of the sorting center (ONRP).",
+      "maxLength": 200
+    },
+    "machineState": {
+      "type": "integer",
+      "description": "This is the single attribute which has a predefined name.\nIt represents the overall state of the machine represented by the Sorter instance.\nIf the Sorter is not able to calculate the overall state this value is not to be sent.",
+      "minimum": 0
+    },
+    "moduleStates": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/ModuleState"
+      },
+      "description": "The set of attributes transmitting substates of a Sorter. This elements stands for a specific visualisation element / state variable.\nThere exists as many instances of this attribute in the group as necessary to express all state information of the Sorter role."
+    }
+  },
+  "required": [
+    "timestamp",
+    "machineState",
+    "moduleStates"
+  ],
+  "additionalProperties": false,
+  "description": "Contains an overall machine state and a list of (sub) moduleStates.",
+  "id": "OverallState",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "definitions": {
+    "ModuleState": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "value": {
+          "type": "integer",
+          "description": "Module state\nTechsys:\n  - publish statuschange: RDY=0,DSA=1,ERR=2\n  - set status: ENA=10,DISA=11",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "name",
+        "value"
+      ],
+      "additionalProperties": false,
+      "$id": "#ModuleState"
+    }
+  }
+}

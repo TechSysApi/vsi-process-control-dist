@@ -1,0 +1,47 @@
+{
+  "namespace": "RequestStatus",
+  "name": "main",
+  "type": "record",
+  "doc": "Response of the device to a Request.",
+  "fields": [
+    {
+      "name": "timestamp",
+      "doc": "The date+timestamp which identifies the point in time, where the information was generated, including milliseconds.",
+      "type": "string"
+    },
+    {
+      "name": "locationKey",
+      "doc": "[ACTION] Attribute is required in future releases after WESort is rolled out in all sorting centers.\nUnique identifier of the sorting center (ONRP).",
+      "default": null,
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    {
+      "name": "state",
+      "doc": "",
+      "type": [
+        {
+          "type": "enum",
+          "name": "state_enum",
+          "symbols": [
+            "OK",
+            "ERROR",
+            "PROCESSING"
+          ]
+        },
+        "string"
+      ]
+    },
+    {
+      "name": "message",
+      "doc": "May contain additional information on the status, e.g. error reason\nin case of ERROR. Messages are not meant to be processed\nautomatically but should just be used for problem\ntracking.",
+      "default": null,
+      "type": [
+        "null",
+        "string"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "$schema": "http://json-schema.org/draft-03/schema#",
+  "definitions": {
+    "UUID": {
+      "type": "string",
+      "description": "<a href=\"https://swagger.io/docs/specification/data-models/data-types/#string\">String @format uuid</a>\n(even '@format uuid' is not specified).",
+      "format": "uuid"
+    }
+  },
+  "type": "object",
+  "properties": {
+    "timestamp": {
+      "type": "string",
+      "description": "The date+timestamp which identifies the point in time, where the information was generated, including milliseconds.",
+      "format": "date-time",
+      "required": true
+    },
+    "locationKey": {
+      "type": "string",
+      "description": "[ACTION] Attribute is required in future releases after WESort is rolled out in all sorting centers.\nUnique identifier of the sorting center (ONRP).",
+      "maxLength": 200
+    },
+    "trackEvents": {
+      "type": "array",
+      "items": {
+        "$ref": "track-event.json"
+      },
+      "required": true
+    }
+  },
+  "additionalProperties": false,
+  "description": "This element represents an event-driven data generation of a piece of MPE.",
+  "id": "TrackEvents",
+  "dotnetNamespace": "Ch.Post.PL.Api.VsiProcessControl.V1"
+}

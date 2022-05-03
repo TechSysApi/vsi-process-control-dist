@@ -1,0 +1,793 @@
+{
+  "namespace": "TrackEvents",
+  "name": "main",
+  "type": "record",
+  "doc": "This element represents an event-driven data generation of a piece of MPE.",
+  "fields": [
+    {
+      "name": "timestamp",
+      "doc": "The date+timestamp which identifies the point in time, where the information was generated, including milliseconds.",
+      "type": "string"
+    },
+    {
+      "name": "locationKey",
+      "doc": "[ACTION] Attribute is required in future releases after WESort is rolled out in all sorting centers.\nUnique identifier of the sorting center (ONRP).",
+      "default": null,
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    {
+      "name": "trackEvents",
+      "doc": "",
+      "type": {
+        "type": "array",
+        "items": {
+          "type": "record",
+          "name": "TrackEvent",
+          "doc": "The track event of an parcel. The event will be used for statistic purpose.",
+          "fields": [
+            {
+              "name": "eventType",
+              "doc": "Defines the track event type.\nList of values:\n- UNKNOWN: Default enum value to map not supported values.\n- READ: Event occured when reading at the tunnel\n- INDUCTION: Event occurred during induction\n- TRACK: Event occurred on the sorter\n- DISCHARGE: Event occurred during discharge\n- READ_BULK: Event occured when reading Bulk",
+              "type": [
+                {
+                  "type": "enum",
+                  "name": "eventType_enum",
+                  "symbols": [
+                    "UNKNOWN",
+                    "READ",
+                    "INDUCTION",
+                    "TRACK",
+                    "DISCHARGE",
+                    "READ_BULK"
+                  ]
+                },
+                "string"
+              ]
+            },
+            {
+              "name": "processPoint",
+              "doc": "The location where the information was generated. (Siehe Anlagen Bezeichnungskonzept)",
+              "type": "string"
+            },
+            {
+              "name": "itemId",
+              "doc": "[DEPRECATED] Is replaced by the attribute processingItemId. Attribute will be removed in future releases after WESort is rolled out in all sorting centers.\nThe id of the mailpiece assigned by the sorting machine during sorting.",
+              "type": "string"
+            },
+            {
+              "name": "processingItemId",
+              "doc": "[ACTION] Attribute is required in future releases after WESort is rolled out in all sorting centers.\nThe machine specific identifier to track a mail item during a machine sorting cycle. The identifier is used to synchronize the data events between coding and sorting systems.",
+              "default": null,
+              "type": [
+                "null",
+                "string"
+              ]
+            },
+            {
+              "name": "mailpieceId",
+              "doc": "[DEPRECATED] Is replaced by the attribute processingItemId. Attribute will be removed in future releases after WESort is rolled out in all sorting centers.\nThe machine specific identifier to track a mail item during a machine sorting cycle. The identifier is used to synchronize the data events between coding and sorting systems.",
+              "default": null,
+              "type": [
+                "null",
+                "string"
+              ]
+            },
+            {
+              "name": "dischargeReason",
+              "doc": "Reason of discharge. Only relevant for discharge events.",
+              "type": [
+                "null",
+                {
+                  "type": "enum",
+                  "name": "dischargeReason_enum",
+                  "symbols": [
+                    "UNKNOWN",
+                    "OK",
+                    "MAX_RECIRCULATION",
+                    "ITEM_NO_READ",
+                    "ITEM_MULTIPLE_READ",
+                    "SCANNER_TIMEOUT",
+                    "ITEM_STRAY",
+                    "ITEM_INDUCTION_ERROR",
+                    "ITEM_DISCHARGE_ERROR",
+                    "ITEM_ERROR",
+                    "ITEM_TRACKING_ERROR",
+                    "ITEM_OCCUPIED_TWICE_ERROR",
+                    "ITEM_DISAPPEARED",
+                    "OUTLET_NOT_AVAILABLE",
+                    "OUTLET_UNKNOWN",
+                    "UNDEFINED_ERROR",
+                    "NO_CAPACITY",
+                    "DIMENSION_ERROR",
+                    "WEIGHT_ERROR",
+                    "SORTPLAN_ERROR",
+                    "DIRECT_SORTING_MODE",
+                    "ITEM_NO_SORTCODE",
+                    "OUTLET_MISSED"
+                  ]
+                },
+                "string"
+              ],
+              "default": null
+            },
+            {
+              "name": "sourceId",
+              "doc": "Refers to a module id as event-source, e.g. DWS02",
+              "type": "string"
+            },
+            {
+              "name": "blockId",
+              "doc": "Identifier to track a group of parcels.",
+              "default": null,
+              "type": [
+                "null",
+                "string"
+              ]
+            },
+            {
+              "name": "mailpieceAttributes",
+              "doc": "<b>Dependency:</b> The MailpieceAttrT type is imported from cen-mc-rc-stream-api where it is used for the submit-mailpiece topic\nThe MailpieceAttrT type provides basic mailpiece related information:\n- the kind of the mail item\n- the mailclass of the mail item; important for the ED because it and may affect the address recognition\n- the scanned faces of the mail item. The FaceSetT type is assigned to faces and allows providing a sequence of faces.\n   The FaceSetT types allows to link a face with the corresponding image by a page attribute.\n- a preknowledge result if a barcode reader or some other type of Enrichment Device is directly attached to the MC.\n   This result will be in accordance with the result type specified in the IC-ED interface.",
+              "type": [
+                "null",
+                {
+                  "type": "record",
+                  "name": "MailpieceAttr",
+                  "fields": [
+                    {
+                      "name": "type",
+                      "doc": "Defines the type of the mail item.",
+                      "type": [
+                        {
+                          "type": "enum",
+                          "name": "type_enum",
+                          "symbols": [
+                            "UNKNOWN",
+                            "LETTER",
+                            "LETTER_BUNDLE",
+                            "FLAT",
+                            "FLAT_BUNDLE",
+                            "PARCEL"
+                          ]
+                        },
+                        "string"
+                      ]
+                    },
+                    {
+                      "name": "preknowledge",
+                      "doc": "Provides preknowledge to the RC System, e.g. a barcode\r\nresult if a barcode reader is integrated into the machine.",
+                      "type": [
+                        "null",
+                        {
+                          "type": "record",
+                          "name": "RecognitionResult",
+                          "fields": [
+                            {
+                              "name": "multipleMailpiecdIdRecognized",
+                              "doc": "[DEPRECATED] Attribute will be removed in future releases after WESort is rolled out in all sorting centers.\r\nIf true, multiple identcodes were recognized by the camera.",
+                              "default": null,
+                              "type": [
+                                "null",
+                                "boolean"
+                              ]
+                            },
+                            {
+                              "name": "informationCarriers",
+                              "doc": "Contains the data from the information carrier identified by the reading system.\r\nThe reading system should read and send all available barcodes/matrix codes. The consuming systems will apply further classification and filtering.",
+                              "type": [
+                                "null",
+                                {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "record",
+                                    "name": "InformationCarrier",
+                                    "doc": "Identified and captured information carrier (e.g. barcodes, logos)",
+                                    "fields": [
+                                      {
+                                        "name": "symbology",
+                                        "doc": "Symbology of an information carrier",
+                                        "type": [
+                                          {
+                                            "type": "enum",
+                                            "name": "symbology_enum",
+                                            "symbols": [
+                                              "NOT_RECOGNIZED",
+                                              "ADDON",
+                                              "CODABAR",
+                                              "CODE_39",
+                                              "CODE_93",
+                                              "CODE_128",
+                                              "DATA_MATRIX",
+                                              "EAN_8",
+                                              "EAN_13",
+                                              "EAN_128",
+                                              "I2OF5",
+                                              "MAXI_CODE",
+                                              "PDF_417",
+                                              "QR",
+                                              "UPC_A",
+                                              "UPC_E"
+                                            ]
+                                          },
+                                          "string"
+                                        ]
+                                      },
+                                      {
+                                        "name": "value",
+                                        "doc": "Value of an information carrier",
+                                        "type": "string"
+                                      }
+                                    ]
+                                  }
+                                }
+                              ],
+                              "default": null
+                            },
+                            {
+                              "name": "barCodes",
+                              "doc": "[DEPRECATED] Is replaced by the attribute informationCarriers. Attribute will be removed in future releases after WESort is rolled out in all sorting centers.\r\nContains all barcodes/matrix codes identified by the reading system.\r\nThe reading system should read and send all available barcodes/matrix codes. The consuming systems will apply further classification and filtering.",
+                              "type": [
+                                "null",
+                                {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "record",
+                                    "name": "BarCode",
+                                    "doc": "This type contains a barcode.",
+                                    "fields": [
+                                      {
+                                        "name": "type",
+                                        "doc": "Provides the valid symbologies of a barcode label.",
+                                        "type": [
+                                          "null",
+                                          {
+                                            "type": "enum",
+                                            "name": "type_enum_1",
+                                            "symbols": [
+                                              "CODE_128",
+                                              "DATA_MATRIX"
+                                            ]
+                                          },
+                                          "string"
+                                        ],
+                                        "default": null
+                                      },
+                                      {
+                                        "name": "value",
+                                        "doc": "This element contains the value of the barcode.",
+                                        "default": null,
+                                        "type": [
+                                          "null",
+                                          "string"
+                                        ]
+                                      },
+                                      {
+                                        "name": "status",
+                                        "doc": "This element contains the status of the barcode.",
+                                        "type": [
+                                          {
+                                            "type": "enum",
+                                            "name": "status_enum",
+                                            "symbols": [
+                                              "NO_BARCODE",
+                                              "DETECTED_AND_RECOGNIZED",
+                                              "DETECTED_AND_NOT_RECOGNIZED"
+                                            ]
+                                          },
+                                          "string"
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                }
+                              ],
+                              "default": null
+                            },
+                            {
+                              "name": "location",
+                              "doc": "To specify a region location, the region descriptor LocationT listed subsequently is used. LocationT encloses\r\nno information about the image orientation. The image orientation is specified in the TIFF header. Region\r\ncoordinates are given in pixel and are related to the image origin which corresponds to the upper left corner.\r\nThe coordinates are independent of the TIFF orientation.",
+                              "type": [
+                                "null",
+                                {
+                                  "type": "record",
+                                  "name": "Location",
+                                  "fields": [
+                                    {
+                                      "name": "face",
+                                      "doc": "# GER-TODO\r\nZur Erkennung auf welcher Seite (welche Kamera) der Identcode gelesen wurde (z.B. für VCS…).\r\nDer Wert ist nur auf den Identcode (national) bezogen.",
+                                      "type": [
+                                        "null",
+                                        {
+                                          "type": "enum",
+                                          "name": "face_enum",
+                                          "symbols": [
+                                            "TOP",
+                                            "LEFT",
+                                            "RIGHT",
+                                            "FRONT",
+                                            "REAR",
+                                            "BOTTOM",
+                                            "FRONT_LEFT",
+                                            "FRONT_RIGHT",
+                                            "REAR_LEFT",
+                                            "REAR_RIGHT"
+                                          ]
+                                        },
+                                        "string"
+                                      ],
+                                      "default": null
+                                    },
+                                    {
+                                      "name": "polygon",
+                                      "doc": "Achtung: Die Punkte in Förderrichtung durchnummeriert, im Unterschied zum CEN-Standard, wo sie im (Gegen-)Uhrzeigersinn ausgerichtet sind.\r\nDie Punkte werden wie folgt ermittelt/ausgegeben:\r\nerster Punkt in Förde-richtung ist der Start-punkt gezählt wird fortlaufend in Förderichtung (nicht Uhrzeigersinn)\r\nalle Angaben sind bezogen auf den Triggernullpunkt (= Schalenanfang) ‚x’ wird in Förderrichtung ermittelt; ‚y’ quer zur Förderrichtung",
+                                      "type": [
+                                        "null",
+                                        {
+                                          "type": "record",
+                                          "name": "Polygon",
+                                          "fields": [
+                                            {
+                                              "name": "dot",
+                                              "doc": "",
+                                              "type": {
+                                                "type": "array",
+                                                "items": {
+                                                  "type": "record",
+                                                  "name": "PolygonDot",
+                                                  "fields": [
+                                                    {
+                                                      "name": "x",
+                                                      "doc": "",
+                                                      "type": "double"
+                                                    },
+                                                    {
+                                                      "name": "y",
+                                                      "doc": "",
+                                                      "type": "double"
+                                                    }
+                                                  ]
+                                                }
+                                              }
+                                            }
+                                          ]
+                                        }
+                                      ],
+                                      "default": null
+                                    }
+                                  ],
+                                  "doc": "To specify a region location, the region descriptor LocationT listed subsequently is used. LocationT encloses\r\nno information about the image orientation. The image orientation is specified in the TIFF header. Region\r\ncoordinates are given in pixel and are related to the image origin which corresponds to the upper left corner.\r\nThe coordinates are independent of the TIFF orientation."
+                                }
+                              ],
+                              "default": null
+                            },
+                            {
+                              "name": "dimension",
+                              "doc": "dimension of the mail piece.",
+                              "type": [
+                                "null",
+                                {
+                                  "type": "record",
+                                  "name": "Dimension",
+                                  "fields": [
+                                    {
+                                      "name": "length",
+                                      "doc": "Length in [mm].",
+                                      "default": null,
+                                      "type": [
+                                        "null",
+                                        "int"
+                                      ]
+                                    },
+                                    {
+                                      "name": "width",
+                                      "doc": "Width in [mm].",
+                                      "default": null,
+                                      "type": [
+                                        "null",
+                                        "int"
+                                      ]
+                                    },
+                                    {
+                                      "name": "height",
+                                      "doc": "Height in [mm].",
+                                      "default": null,
+                                      "type": [
+                                        "null",
+                                        "int"
+                                      ]
+                                    },
+                                    {
+                                      "name": "state",
+                                      "doc": "State of the measurement.",
+                                      "type": [
+                                        "null",
+                                        {
+                                          "type": "record",
+                                          "name": "DimensionMeasurementState",
+                                          "fields": [
+                                            {
+                                              "name": "measurementResult",
+                                              "doc": "Measurement result state.\r\n\r\n- OK: Measurement VMS ok\r\n- NOK: Measurement VMS not ok\r\n- NOT_RECOGNIZED: No object recognized",
+                                              "type": [
+                                                {
+                                                  "type": "enum",
+                                                  "name": "measurementResult_enum",
+                                                  "symbols": [
+                                                    "OK",
+                                                    "NOK",
+                                                    "NOT_RECOGNIZED"
+                                                  ]
+                                                },
+                                                "string"
+                                              ]
+                                            },
+                                            {
+                                              "name": "measurementRange",
+                                              "doc": "- INSIDE: Object is within the measurement range\r\n- OUTSIDE: Object is outside of the measurement range",
+                                              "type": [
+                                                {
+                                                  "type": "enum",
+                                                  "name": "measurementRange_enum",
+                                                  "symbols": [
+                                                    "INSIDE",
+                                                    "OUTSIDE"
+                                                  ]
+                                                },
+                                                "string"
+                                              ]
+                                            },
+                                            {
+                                              "name": "itemSizeClassification",
+                                              "doc": "",
+                                              "type": {
+                                                "type": "record",
+                                                "name": "ItemSizeClassificationType",
+                                                "fields": [
+                                                  {
+                                                    "name": "ok",
+                                                    "doc": "True: object size ok\r\nFalse: Object size not ok (over and/or undersized, see corresponding flags)",
+                                                    "type": "boolean"
+                                                  },
+                                                  {
+                                                    "name": "oversized",
+                                                    "doc": "object too big to be measured",
+                                                    "type": "boolean"
+                                                  },
+                                                  {
+                                                    "name": "undersized",
+                                                    "doc": "object too small to be measured",
+                                                    "type": "boolean"
+                                                  }
+                                                ]
+                                              }
+                                            }
+                                          ],
+                                          "doc": "State of the measurement."
+                                        }
+                                      ],
+                                      "default": null
+                                    }
+                                  ],
+                                  "doc": "Dimension measurement of the mail piece"
+                                }
+                              ],
+                              "default": null
+                            },
+                            {
+                              "name": "weight",
+                              "doc": "weight of the mail piece.",
+                              "type": [
+                                "null",
+                                {
+                                  "type": "record",
+                                  "name": "Weight",
+                                  "fields": [
+                                    {
+                                      "name": "value",
+                                      "doc": "Actual weight in [g].",
+                                      "default": null,
+                                      "type": [
+                                        "null",
+                                        "int"
+                                      ]
+                                    },
+                                    {
+                                      "name": "scaleId",
+                                      "doc": "The id of the scale (e.g. HAE-024)",
+                                      "default": null,
+                                      "type": [
+                                        "null",
+                                        "string"
+                                      ]
+                                    },
+                                    {
+                                      "name": "state",
+                                      "doc": "Weighing errors",
+                                      "type": [
+                                        "null",
+                                        {
+                                          "type": "record",
+                                          "name": "WeightMeasurementState",
+                                          "fields": [
+                                            {
+                                              "name": "isLegalForTrade",
+                                              "doc": "False: Weight is not legal for trade.",
+                                              "type": "boolean"
+                                            },
+                                            {
+                                              "name": "packageDistanceError",
+                                              "doc": "",
+                                              "default": null,
+                                              "type": [
+                                                "null",
+                                                "boolean"
+                                              ]
+                                            },
+                                            {
+                                              "name": "packageLengthError",
+                                              "doc": "",
+                                              "default": null,
+                                              "type": [
+                                                "null",
+                                                "boolean"
+                                              ]
+                                            },
+                                            {
+                                              "name": "externalError",
+                                              "doc": "",
+                                              "default": null,
+                                              "type": [
+                                                "null",
+                                                "boolean"
+                                              ]
+                                            },
+                                            {
+                                              "name": "invalidMeasurement",
+                                              "doc": "",
+                                              "default": null,
+                                              "type": [
+                                                "null",
+                                                "boolean"
+                                              ]
+                                            },
+                                            {
+                                              "name": "overweight",
+                                              "doc": "Weight higher than max. weight.",
+                                              "default": null,
+                                              "type": [
+                                                "null",
+                                                "boolean"
+                                              ]
+                                            },
+                                            {
+                                              "name": "underweight",
+                                              "doc": "Weight lower than min weight.",
+                                              "default": null,
+                                              "type": [
+                                                "null",
+                                                "boolean"
+                                              ]
+                                            },
+                                            {
+                                              "name": "overload",
+                                              "doc": "",
+                                              "default": null,
+                                              "type": [
+                                                "null",
+                                                "boolean"
+                                              ]
+                                            },
+                                            {
+                                              "name": "underload",
+                                              "doc": "",
+                                              "default": null,
+                                              "type": [
+                                                "null",
+                                                "boolean"
+                                              ]
+                                            },
+                                            {
+                                              "name": "conveyorSpeedChangedDuringMeasurement",
+                                              "doc": "",
+                                              "default": null,
+                                              "type": [
+                                                "null",
+                                                "boolean"
+                                              ]
+                                            },
+                                            {
+                                              "name": "conveyorSpeedOutOfMaxLimit",
+                                              "doc": "",
+                                              "default": null,
+                                              "type": [
+                                                "null",
+                                                "boolean"
+                                              ]
+                                            },
+                                            {
+                                              "name": "alibiStorageAtScaleFailed",
+                                              "doc": "",
+                                              "default": null,
+                                              "type": [
+                                                "null",
+                                                "boolean"
+                                              ]
+                                            },
+                                            {
+                                              "name": "scaleDataFormatError",
+                                              "doc": "",
+                                              "default": null,
+                                              "type": [
+                                                "null",
+                                                "boolean"
+                                              ]
+                                            }
+                                          ]
+                                        }
+                                      ],
+                                      "default": null
+                                    }
+                                  ],
+                                  "doc": "Weight measurement of the mail piece."
+                                }
+                              ],
+                              "default": null
+                            },
+                            {
+                              "name": "legalForTrade",
+                              "doc": "Legal For Trade information.",
+                              "type": [
+                                "null",
+                                {
+                                  "type": "record",
+                                  "name": "LegalForTrade",
+                                  "fields": [
+                                    {
+                                      "name": "actualVolume",
+                                      "doc": "# GER-TODO\r\n\r\nRealvolumen VMS#1 wenn VMS#1 = VMS420/520 Realvolumen = 000000 bei VMS#1 = VMS410/510\r\n[dm3]",
+                                      "default": null,
+                                      "type": [
+                                        "null",
+                                        "int"
+                                      ]
+                                    },
+                                    {
+                                      "name": "boxVolume",
+                                      "doc": "Boxvolumen = Länge x Breite x Höhe\r\n[dm3]",
+                                      "default": null,
+                                      "type": [
+                                        "null",
+                                        "int"
+                                      ]
+                                    },
+                                    {
+                                      "name": "volumeRatio",
+                                      "doc": "Realvolumen / Boxvolumen in % ganzzahlig",
+                                      "default": null,
+                                      "type": [
+                                        "null",
+                                        "int"
+                                      ]
+                                    },
+                                    {
+                                      "name": "shape",
+                                      "doc": "Die Paketform.",
+                                      "type": [
+                                        "null",
+                                        {
+                                          "type": "enum",
+                                          "name": "shape_enum",
+                                          "symbols": [
+                                            "CUBIC",
+                                            "IRREGULAR"
+                                          ]
+                                        },
+                                        "string"
+                                      ],
+                                      "default": null
+                                    },
+                                    {
+                                      "name": "state",
+                                      "doc": "Detailed information on legal for trade relevant measurements.\r\n\r\n- If all flags are false, the measurements are legal for trade.\r\n- If only weightError is true, dimension measurement is legal for trade.\r\n- If only dimensionError is true, weight measurement is legal for trade.\r\n- Otherwise, measurements are not legal for trade.",
+                                      "type": [
+                                        "null",
+                                        {
+                                          "type": "record",
+                                          "name": "LegalForTradeState",
+                                          "fields": [
+                                            {
+                                              "name": "conveyorSpeedError",
+                                              "doc": "Conveyor speed is out of tolerance.",
+                                              "type": "boolean"
+                                            },
+                                            {
+                                              "name": "storageError",
+                                              "doc": "Alibi storage error.",
+                                              "type": "boolean"
+                                            },
+                                            {
+                                              "name": "dimensionError",
+                                              "doc": "VMS data is not legal for trade.",
+                                              "type": "boolean"
+                                            },
+                                            {
+                                              "name": "weightError",
+                                              "doc": "Weight data not legal for trade.",
+                                              "type": "boolean"
+                                            }
+                                          ],
+                                          "doc": "Detailed information on legal for trade relevant measurements.\r\n\r\n- If all flags are false, the measurements are legal for trade.\r\n- If only weightError is true, dimension measurement is legal for trade.\r\n- If only dimensionError is true, weight measurement is legal for trade.\r\n- Otherwise, measurements are not legal for trade."
+                                        }
+                                      ],
+                                      "default": null
+                                    }
+                                  ],
+                                  "doc": "Customs information"
+                                }
+                              ],
+                              "default": null
+                            },
+                            {
+                              "name": "binOccupancy",
+                              "doc": "Doppelbelegung / Leerschalen-kontrolle\r\nemptyBinOccupied: Belegte Leerschale\r\nbinMultipleItemOccupied: Doppelbelegung - Erkennung der Schalenbelegung von DWS\r\nfrontOverlappingLimitExceeded: Überstand vorne zu groß\r\nbackOverlappingLimitExceeded: Überstand hinten zu groß\r\nmultipleItemsDetected: >= 2 Objekt erkannt\r\nconveyingAidDetected: Förderhilfe erkannt",
+                              "type": [
+                                "null",
+                                {
+                                  "type": "record",
+                                  "name": "BinOccupancyState",
+                                  "fields": [
+                                    {
+                                      "name": "emptyBinOccupied",
+                                      "doc": "",
+                                      "type": "boolean"
+                                    },
+                                    {
+                                      "name": "binMultipleItemOccupied",
+                                      "doc": "",
+                                      "type": "boolean"
+                                    },
+                                    {
+                                      "name": "frontOverlappingLimitExceeded",
+                                      "doc": "",
+                                      "type": "boolean"
+                                    },
+                                    {
+                                      "name": "backOverlappingLimitExceeded",
+                                      "doc": "",
+                                      "type": "boolean"
+                                    },
+                                    {
+                                      "name": "multipleItemsDetected",
+                                      "doc": "",
+                                      "type": "boolean"
+                                    },
+                                    {
+                                      "name": "conveyingAidDetected",
+                                      "doc": "",
+                                      "type": "boolean"
+                                    }
+                                  ],
+                                  "doc": "Doppelbelegung / Leerschalen-kontrolle\r\nemptyBinOccupied: Belegte Leerschale\r\nbinMultipleItemOccupied: Doppelbelegung - Erkennung der Schalenbelegung von DWS\r\nfrontOverlappingLimitExceeded: Überstand vorne zu groß\r\nbackOverlappingLimitExceeded: Überstand hinten zu groß\r\nmultipleItemsDetected: >= 2 Objekt erkannt\r\nconveyingAidDetected: Förderhilfe erkannt"
+                                }
+                              ],
+                              "default": null
+                            }
+                          ]
+                        }
+                      ],
+                      "default": null
+                    }
+                  ],
+                  "doc": "This type is taken from CEN/TS 15448 and extended by a “preknowledge” element.\r\nThe type MailpieceAttrT specifies basic mailpiece attributes."
+                }
+              ],
+              "default": null
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

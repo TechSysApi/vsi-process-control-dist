@@ -1,0 +1,104 @@
+{
+  "timestamp": "2021-06-25T13:40:19.1662632+02:00",
+  "trackEvents": [{
+    "eventType": "INDUCTION",
+    "processPoint": "TRY01+AIM0131+TFU01-CBU06",
+    "itemId": "13792273859324272",
+    "sourceId": "AIM03",
+    "mailpieceId": "990066000107231280",
+    "dischargeReason": "OK",
+    "mailpieceAttributes": {
+      "type": "PARCEL",
+      "preknowledge": {
+        "multipleMailpiecdIdRecognized": false,
+        "barCodes": [{
+          "type": "CODE_128",
+          "value": "0307",
+          "status": "DETECTED_AND_RECOGNIZED"
+        }, {
+          "type": "CODE_128",
+          "value": "0509",
+          "status": "DETECTED_AND_RECOGNIZED"
+        }, {
+          "type": "CODE_128",
+          "value": "990066000107231280",
+          "status": "DETECTED_AND_RECOGNIZED"
+        }, {
+          "type": "DATA_MATRIX",
+          "value": "756109015916506100306307506300000000000007364170012702106250",
+          "status": "DETECTED_AND_RECOGNIZED"
+        }],
+        "location": {
+          "face": "TOP",
+          "polygon": {
+            "dot": [{
+              "x": 0,
+              "y": 355
+            }, {
+              "x": 2,
+              "y": 67
+            }, {
+              "x": 532,
+              "y": 359
+            }, {
+              "x": 534,
+              "y": 71
+            }]
+          }
+        },
+        "dimension": {
+          "length": 530,
+          "width": 290,
+          "height": 175,
+          "state": {
+            "measurementResult": "OK",
+            "measurementRange": "INSIDE",
+            "itemSizeClassification": {
+              "ok": false,
+              "oversized": false,
+              "undersized": false
+            }
+          }
+        },
+        "weight": {
+          "value": 3000,
+          "state": {
+            "isLegalForTrade": true,
+            "packageDistanceError": false,
+            "packageLengthError": false,
+            "externalError": false,
+            "invalidMeasurement": false,
+            "overweight": false,
+            "underweight": false,
+            "overload": false,
+            "underload": false,
+            "conveyorSpeedChangedDuringMeasurement": false,
+            "conveyorSpeedOutOfMaxLimit": false,
+            "alibiStorageAtScaleFailed": false,
+            "scaleDataFormatError": false
+          }
+        },
+        "legalForTrade": {
+          "actualVolume": 26,
+          "boxVolume": 26,
+          "volumeRatio": 98,
+          "shape": "CUBIC",
+          "state": {
+            "conveyorSpeedError": false,
+            "storageError": false,
+            "dimensionError": false,
+            "weightError": false
+          }
+        },
+        "binOccupancy": {
+          "emptyBinOccupied": false,
+          "binMultipleItemOccupied": false,
+          "frontOverlappingLimitExceeded": false,
+          "backOverlappingLimitExceeded": false,
+          "multipleItemsDetected": false,
+          "conveyingAidDetected": false
+        }
+      }
+    }
+  }]
+}

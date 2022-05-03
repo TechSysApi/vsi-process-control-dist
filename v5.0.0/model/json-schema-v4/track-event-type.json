@@ -1,0 +1,16 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "definitions": {},
+  "type": "string",
+  "enum": [
+    "UNKNOWN",
+    "READ",
+    "INDUCTION",
+    "TRACK",
+    "DISCHARGE",
+    "READ_BULK"
+  ],
+  "description": "Defines the track event type.\nList of values:\n- UNKNOWN: Default enum value to map not supported values.\n- READ: Event occured when reading at the tunnel\n- INDUCTION: Event occurred during induction\n- TRACK: Event occurred on the sorter\n- DISCHARGE: Event occurred during discharge\n- READ_BULK: Event occured when reading Bulk",
+  "id": "TrackEventType",
+  "dotnetNamespace": "Ch.Post.PL.Api.VsiProcessControl.V1"
+}

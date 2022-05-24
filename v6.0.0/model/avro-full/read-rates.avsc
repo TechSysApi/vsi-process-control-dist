@@ -1,0 +1,55 @@
+{
+  "namespace": "ReadRates",
+  "name": "main",
+  "type": "record",
+  "doc": "Contains an array of read rates.",
+  "fields": [
+    {
+      "name": "timestamp",
+      "doc": "The date+timestamp which identifies the point in time, where the information was generated, including milliseconds.",
+      "type": "string"
+    },
+    {
+      "name": "locationKey",
+      "doc": "[ACTION] Attribute is required in future releases after WESort is rolled out in all sorting centers.\nUnique identifier of the sorting center (ONRP).",
+      "default": null,
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    {
+      "name": "readRates",
+      "doc": "",
+      "type": [
+        "null",
+        {
+          "type": "array",
+          "items": {
+            "type": "record",
+            "name": "ReadRate",
+            "doc": "The read rate event of an element. The counter will be used for visualization and statistic purposes.",
+            "fields": [
+              {
+                "name": "processPoint",
+                "doc": "The location where the information was generated. (Siehe Anlagen Bezeichnungskonzept)",
+                "type": "string"
+              },
+              {
+                "name": "total",
+                "doc": "Total number of parcel passed the reading device.",
+                "type": "int"
+              },
+              {
+                "name": "read",
+                "doc": "Number of parcel successfully read at processpoint and the cen-mc-rc.submit-mailpiece event has been sent to the coding system.",
+                "type": "int"
+              }
+            ]
+          }
+        }
+      ],
+      "default": null
+    }
+  ]
+}

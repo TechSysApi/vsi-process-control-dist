@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "definitions": {},
+  "type": "string",
+  "enum": [
+    "AUTOMATIC",
+    "MANUAL_CODING_REJECT",
+    "MANUAL_CODING_LIGHT",
+    "MANUAL_CODING_BULK",
+    "MANUAL_CODING_BULK_AUTOMATIC"
+  ],
+  "description": "Defines the sorting process.\nAUTOMATIC Sorted by the sorter\nMANUAL_CODING_REJECT Device where a coder manually captures barcodes and enters address information\nMANUAL_CODING_LIGHT Device where barcodes barcodes, products and the weight is captured (manual or partially automated)\nMANUAL_CODING_BULK Device where barcodes, weight and dimensions and address information for bulky goods are captured or entered (manual or partially automated)\nMANUAL_CODING_BULK_AUTOMATIC Device where a coder manually captures barcodes and other specific information for bulky goods",
+  "id": "SortingProcess",
+  "dotnetNamespace": "Ch.Post.PL.Api.VsiProcessControl.V1"
+}

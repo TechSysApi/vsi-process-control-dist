@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "definitions": {},
+  "type": "object",
+  "properties": {
+    "timestamp": {
+      "type": "string",
+      "description": "The date+timestamp which identifies the point in time, where the restart request was generated, including milliseconds.",
+      "format": "date-time",
+      "required": true
+    },
+    "locationKey": {
+      "type": "string",
+      "description": "[ACTION] Attribute is required in future releases after WESort is rolled out in all sorting centers.\nUnique identifier of the sorting center (ONRP).",
+      "maxLength": 200
+    }
+  },
+  "required": [
+    "timestamp"
+  ],
+  "additionalProperties": false,
+  "$id": "#SoftwareRestartRequest",
+  "dotnetNamespace": "Ch.Post.PL.Api.VsiProcessControl.V1"
+}

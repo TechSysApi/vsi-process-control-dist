@@ -1,0 +1,16 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "definitions": {},
+  "type": "string",
+  "enum": [
+    "BOOLEAN",
+    "INTEGER",
+    "STRING",
+    "DATE",
+    "TIME",
+    "DATE_TIME"
+  ],
+  "description": "The type of a parameter value.\nEncoding / formatting follow the same rules as JSON encoding (i.e. String encoding = UTF8, dates = ISO 8601, booleans = true/false)",
+  "$id": "#ParameterType",
+  "dotnetNamespace": "Ch.Post.PL.Api.VsiProcessControl.V1"
+}

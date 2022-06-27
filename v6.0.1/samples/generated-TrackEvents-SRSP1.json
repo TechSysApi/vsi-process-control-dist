@@ -1,0 +1,49 @@
+{
+  "timestamp": "2021-06-25T16:11:36.9378586+02:00",
+  "trackEvents": [{
+    "eventType": "READ",
+    "processPoint": "FRA-CLC28",
+    "itemId": "",
+    "sourceId": "DWS02",
+    "mailpieceId": "990066000107231280",
+    "mailpieceAttributes": {
+      "type": "UNKNOWN",
+      "preknowledge": {
+        "multipleMailpiecdIdRecognized": false,
+        "barCodes": [{
+          "type": "CODE_128",
+          "value": "0307",
+          "status": "DETECTED_AND_RECOGNIZED"
+        }, {
+          "type": "CODE_128",
+          "value": "0509",
+          "status": "DETECTED_AND_RECOGNIZED"
+        }, {
+          "type": "CODE_128",
+          "value": "990066000107231280",
+          "status": "DETECTED_AND_RECOGNIZED"
+        }],
+        "dimension": {
+          "length": 530,
+          "width": 290,
+          "height": 175
+        },
+        "weight": {
+          "value": 3000
+        },
+        "legalForTrade": {
+          "actualVolume": 26,
+          "boxVolume": 26,
+          "volumeRatio": 98,
+          "shape": "CUBIC",
+          "state": {
+            "conveyorSpeedError": false,
+            "storageError": false,
+            "dimensionError": false,
+            "weightError": false
+          }
+        }
+      }
+    }
+  }]
+}
